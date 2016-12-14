@@ -14,7 +14,7 @@ The framework contains 3 modules:
 
 ```
 #Install scout development version, no stable version yet
-pip install -e  git+https://github.com/invaana/scout.git@develop#egg=scout
+pip install -e  git+https://github.com/invaana/scout.git#egg=scout
 
 ```
 
