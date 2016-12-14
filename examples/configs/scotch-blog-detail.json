@@ -1,0 +1,67 @@
+{
+	"scraperName": "scotchio-ng-blog",
+	"scraperVersion": "0.1",
+	"authorName": "Ravi RT Merugu",
+	"authorEmail": "rrmerugu@gmail.com",
+	"authorWebsite": "http://rrmerugu.com",
+	"config": {
+		"website": "https://scotch.io/tag/angular-js",
+		"method": "requests",
+		"scrapeType": "detailed",
+		"dataPoints": {
+			"pagination": {
+				"doPagination": true,
+				"scrapeMaxSize": -1,
+				"scrapeMinDate": "",
+
+				"nextButton": {
+					"selector": "a",
+					"contains": "Next Page "
+				}
+
+			},
+			"links": {
+				"selector": ".card-content a",
+				"nthElement": 0,
+				"valueType": "href",
+				"valueSize": "array"
+			},
+			"linkScraper": [{
+					"name": "title",
+					"selector": "h1",
+					"nthElement": 0,
+					"valueType": "text",
+					"valueSize": "string"
+				}, {
+					"name": "content",
+					"selector": ".page-content-primary",
+					"nthElement": 0,
+					"valueType": "innerHTML",
+					"valueSize": "string"
+				}, {
+					"name": "tags",
+					"selector": ".byline-item:nth-child(5) a",
+					"nthElement": 0,
+					"valueType": "text",
+					"valueSize": "array"
+				}, {
+					"name": "date",
+					"selector": ".byline-item:nth-child(2) a",
+					"nthElement": 0,
+					"valueType": "text",
+					"valueSize": "string"
+				}, {
+					"name": "categories",
+					"selector": ".byline-item:nth-child(4) a",
+					"nthElement": 0,
+					"valueType": "text",
+					"valueSize": "array"
+				}
+
+			]
+
+
+		}
+	}
+
+}

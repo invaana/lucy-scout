@@ -15,8 +15,7 @@ __author__ = 'rrmerugu'
 
 import time, requests, urllib2, logging
 from bs4 import BeautifulSoup as soup
-from . import helpers
-from helpers import ScrapeHTMLErrorMesg
+from scout.helpers import ScrapeHTMLErrorMesg, getElapsedTime
 logger = logging.getLogger(__name__)
 
 
@@ -47,7 +46,7 @@ class ScrapeHTML:
     def getHTMLWithURLlib(self, url):
         try:
             content = urllib2.urlopen(url, timeout=20).read()
-            html = soup(content)
+            html = soup(content,'lxml')
             logger.debug('Loaded page Successfully :' + url)
         except:
             html = None
@@ -61,7 +60,7 @@ class ScrapeHTML:
         response = {}
         try:
             page = requests.get(url, timeout=20)
-            dif = helpers.getElapsedTime(self.t)
+            dif = getElapsedTime(self.t)
             if page.status_code == 200:
                 response['status'] = 200
                 response['data'] = page.text
@@ -75,7 +74,7 @@ class ScrapeHTML:
                 response['elapsed_time'] = dif
                 return response
         except Exception as e:
-            dif = helpers.getElapsedTime(self.t)
+            dif = getElapsedTime(self.t)
             logger.error(e)
             response['status'] = 400
             response['data'] = None
@@ -115,7 +114,7 @@ class ScrapeDataWithBS4:
     def getElement(self, html, selector, num):
 
         try:
-            html = soup(html)
+            html = soup(html,'lxml')
             elem = html.select(selector)[num]
         except Exception as e:
             logger.error(e)
@@ -130,7 +129,7 @@ class ScrapeDataWithBS4:
         num = int(num)
         # logger.debug("INFO: Gathering the value for [ " + str(css) + " ]["+ str(num)+"]["+str(value)+"]")
         try:
-            html = soup(html)
+            html = soup(html,'lxml')
             elem = html.select(css)[num]
             if value == 'text':
                 result = elem.get_text().lstrip().rstrip().encode('utf-8')
@@ -146,7 +145,7 @@ class ScrapeDataWithBS4:
 
     def getNextUrl(self, html, selector, contains, value_type):
         # TODO - Right now the selector is 0th element, but it can be made to select as nth element which 'contains' some 'selector'
-        html = soup(html)
+        html = soup(html,'lxml')
         selector = selector
         contains = contains
         value_type = value_type
@@ -175,7 +174,7 @@ class ScrapeDataWithBS4:
         num = int(num)
         # logger.debug("Gathering the array for [ " + css + " ][" + value + "]")
         try:
-            html = soup(html)
+            html = soup(html,'lxml')
             elems = html.select(css)
             arr = []
             # logging.debug(str(len(elems)) + " found in the selector'" + css + "'")
