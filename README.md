@@ -1,3 +1,3 @@
-# Scider (Scientific Spider) 
+# Scout  
 
-This is a data aggregation framework of Scientific Data.
+This is a data aggregation framework for scouting and aggregating Scientific Data.
