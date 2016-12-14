@@ -9,6 +9,36 @@ import datetime
 
 connect('scout')
 
+class ScrapedData(Document):
+    link = StringField(max_length=300)
+    title = StringField(max_length=300)
+    html = StringField()
+    domain = StringField(max_length=200)
+    image = StringField(max_length=500)
+
+    # entry date in blog
+    published_date = DateTimeField()
+    published_date_unformated = StringField()
+    date =  DateTimeField(db_field='addDate',default=datetime.datetime.now)
+
+    def __unicode__(self):
+        return "%s.%s" %(self.entry_id, self.link)
+
+    meta = {
+        'indexes': [
+            {'fields': ['-link'], 'unique': True,
+             'sparse': True, 'types': False},
+        ],
+    }
+
+    def save(self, *args, **kwargs):
+        self.date = datetime.datetime.now()
+        super(ScrapedData, self).save(*args, **kwargs)
+
+
+
+"""
+
 # class ScrapedData(Document):
 #     title = StringField(required=True, max_length=200)
 #     posted = DateTimeField(default=datetime.datetime.now)
@@ -53,23 +83,5 @@ connect('scout')
 #         return "%s" %self.image_url
 #
 
-class ScrapedData(Document):
-    link = StringField(max_length=300)
-    title = StringField(max_length=300)
-    html = StringField()
-    domain = StringField(max_length=200)
-    image = StringField(max_length=500)
 
-    # entry date in blog
-    publised_date = DateTimeField()
-    publised_date_unformated = StringField()
-    date =  DateTimeField(auto_now_add=True)
-
-    def __unicode__(self):
-        return "%s.%s" %(self.entry_id, self.link)
-
-
-
-    def save(self, *args, **kwargs):
-        self.date = datetime.datetime.now()
-        super(ScrapedData, self).save(*args, **kwargs)
+"""

@@ -8,8 +8,8 @@ CURRENT_PATH = os.path.dirname(os.path.realpath(__file__)) #adding the parent di
 SCIDER_PATH = os.path.join(CURRENT_PATH, '..') #adding the project to the python path
 sys.path.append(SCIDER_PATH)
 
-from scout.tasks import scrape_website_task
-from scout import helpers
+from scout.scider.tasks import scrape_website_task
+from scout.scider import helpers
 
 
 

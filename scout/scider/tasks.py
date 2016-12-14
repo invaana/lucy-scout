@@ -6,14 +6,14 @@ __author__ = 'rrmerugu'
 
 """
 
-from .settings import worker
+from scout.settings import worker
 
 import logging, urlparse, decimal, random
 from .scraper import ScrapeHTML, ScrapeDataWithBS4
 from time import sleep
 
 # from .models import ScrapedData
-from scout.mongo import ScrapedData
+from scout.db.mongo import ScrapedData
 logger = logging.getLogger(__name__)
 
 

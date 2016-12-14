@@ -15,7 +15,7 @@ __author__ = 'rrmerugu'
 
 import time, requests, urllib2, logging
 from bs4 import BeautifulSoup as soup
-from scout.helpers import ScrapeHTMLErrorMesg, getElapsedTime
+from scout.scider.helpers import ScrapeHTMLErrorMesg, getElapsedTime
 logger = logging.getLogger(__name__)
 
 
