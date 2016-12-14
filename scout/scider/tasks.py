@@ -248,7 +248,6 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                 ## TODO - we can save multiple versions in FUTURE
 
                 obj = ScrapedData.objects.filter(link = k)
-                logger.debug(clean_html(v['content']))
 
                 if obj.count() >= 1:
                     #link already exist so update
