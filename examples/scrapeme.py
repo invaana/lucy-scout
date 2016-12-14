@@ -19,7 +19,7 @@ config = helpers.read_json_file(config_file)
 
 
 
-scrape_website_task(config, 15, True)
+scrape_website_task(config, 10, True)
 
 
 

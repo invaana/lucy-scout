@@ -11,7 +11,7 @@ from scout.settings import worker
 import logging, urlparse, decimal, random
 from .scraper import ScrapeHTML, ScrapeDataWithBS4
 from time import sleep
-
+from scout.sanitizer import clean_html
 # from .models import ScrapedData
 from scout.db.mongo import ScrapedData
 logger = logging.getLogger(__name__)
@@ -248,13 +248,15 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                 ## TODO - we can save multiple versions in FUTURE
 
                 obj = ScrapedData.objects.filter(link = k)
+                logger.debug(clean_html(v['content']))
+
                 if obj.count() >= 1:
                     #link already exist so update
                     logger.debug("%s already exist in DB, so updating" %k)
                     try:
                         obj = obj.first()
                         obj.title = v['title']
-                        obj.html = v['content']
+                        obj.html = clean_html(v['content'])
                         # obj.catagories = v['categories']
                         # obj.tags = v['tags']
                         # obj.images = []
@@ -271,7 +273,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                     try:
                         obj = ScrapedData(link = k)
                         obj.title = v['title']
-                        obj.html = v['content']
+                        obj.html = clean_html(v['content'])
                         # obj.catagories = v['categories']
                         # obj.tags = v['tags']
                         # obj.images = []

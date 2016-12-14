@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 'scraper.py' is created by 'invaana' for the project 'scout' on 14 December, 2016.
 
@@ -11,7 +12,7 @@ print a.result
 """
 
 __author__ = 'rrmerugu'
-# -*- coding: utf-8 -*-
+
 
 import time, requests, urllib2, logging
 from bs4 import BeautifulSoup as soup
