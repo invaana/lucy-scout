@@ -128,7 +128,18 @@ def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #
             return links
 
 @worker.task()
-def scrape_website_task(config, max_limit=None , save=True):
+def scrape_website_task(config=None, max_limit=None , save=True):
+    """
+    :param config: config file in dict format
+    :param max_limit: max number of entry scraping after which, the scraper should halt
+    :param save: should the data be saved to db.
+    :return:
+    """
+
+    if config is None:
+        raise "No config data provided"
+    if type(config) is not dict:
+        raise "Config file should be dictionary"
     response= {}
     logger.debug("config for this scraping task would be %s" %config)
     a = ScrapeHTML(config['config']['website'], config['config']['method'])

@@ -1,6 +1,7 @@
 # Scout  
 
-This is a data aggregation framework for scouting and aggregating Scientific Data.
+This is a data aggregation framework for scouting and aggregating Scientific Data. 
+
 
 The framework contains 3 modules:
 
@@ -14,14 +15,25 @@ The framework contains 3 modules:
 Step1:  Create a scider input json file 
 # example : examples/configs/github.json
 
-Step2: Install scout
+#Step2: Install scout development version, no stable version yet
+pip install -e  git+https://github.com/invaana/scout.git@develop#egg=scout
 
-# development version
-pip install -e git://github.com/invaana/scout.git@develop#egg=scout 
+#Step3: 
+from scout.scider.tasks import scrape_website_task
+from scout.scider import helpers
 
-# stable version (currently no stable version exists)
-pip install -e git://github.com/invaana/scout.git#egg=scout
+config_file = "configs/github.json"
+config = helpers.read_json_file(config_file)
 
+# to run at the moment
+scrape_website_task(config=config, max_limit=30, save=True) 
+
+# add to queue of redis 
+scrape_website_task.delay(config=config, max_limit=30, save=True) 
 
 
 ```
+
+This module is designed by Data Science team for internal usage at Invaana. 
+If you are a scientific data enthusiast, we'd love to know more about your interests. 
+Let us know [@invaana](http://twitter.com/invaana) !
