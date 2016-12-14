@@ -13,7 +13,7 @@ from .scraper import ScrapeHTML, ScrapeDataWithBS4
 from time import sleep
 
 # from .models import ScrapedData
-# from django.http import JsonResponse
+from scout.mongo import ScrapedData
 logger = logging.getLogger(__name__)
 
 
@@ -60,7 +60,7 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
         links_cleaned.append(make_complete_url(link, website))
     return links_cleaned
 
-def scrape_single_page(links, bs4_scrapper, html, k , config): #paginaton
+def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #paginaton
     # TODO - Apply heuristics, so that this wont  bump into "TOO MANY requests " error
     data_points = config['config']['dataPoints']
     links = links +  gather_the_links(bs4_scrapper, html, data_points, k, config['config']['website'])
@@ -90,8 +90,8 @@ def scrape_single_page(links, bs4_scrapper, html, k , config): #paginaton
         next_page_link = make_complete_url(next_page_link, config['config']['website'])
 
 
-
-        max_limit =config['config']['dataPoints']['pagination']['scrapeMaxSize']
+        if max_limit is None:
+            max_limit =config['config']['dataPoints']['pagination']['scrapeMaxSize']
         now_count = len(links)
         # If found the pagination 'next' url
         logger.debug("Currently scraped %s of max limit %s " %(now_count, max_limit))
@@ -110,7 +110,7 @@ def scrape_single_page(links, bs4_scrapper, html, k , config): #paginaton
                     links= links + paginated_links
 
                     #recurse the function to check if new pagination exists
-                    return scrape_single_page(links, bs4_scrapper, paginated_html, k , config  )
+                    return scrape_single_page(links, bs4_scrapper, paginated_html, k , config, max_limit  )
 
                 else:
                     logger.debug(paginated_html.result)
@@ -128,7 +128,7 @@ def scrape_single_page(links, bs4_scrapper, html, k , config): #paginaton
             return links
 
 @worker.task()
-def scrape_website_task(config, save):
+def scrape_website_task(config, max_limit=None , save=True):
     response= {}
     logger.debug("config for this scraping task would be %s" %config)
     a = ScrapeHTML(config['config']['website'], config['config']['method'])
@@ -168,7 +168,11 @@ def scrape_website_task(config, save):
 
             if config['config']['dataPoints']['pagination']['doPagination']  == True:
                 ## First scape the page
-                links = scrape_single_page(links, bs4_scrapper, a, k , config)
+                if max_limit:
+                    kw = {'max_limit': max_limit}
+                else:
+                    kw = {}
+                links = scrape_single_page(links, bs4_scrapper, a, k , config, **kw)
 
 
 
