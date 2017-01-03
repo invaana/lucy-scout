@@ -12,13 +12,14 @@ from scout.scider.tasks import scrape_website_task, scrape_website_topics_task
 from scout.scider import helpers
 
 
-__CONFIG_FOLDER__ = 'configs'
-config_file = "%s/newscientist.json"%__CONFIG_FOLDER__
+CONFIG_FOLDER = 'configs'
+config_file = "%s/newscientist.json"%CONFIG_FOLDER
 config = helpers.read_json_file(config_file)
 
 
 
-topics_configs =  scrape_website_topics_task(config=config,config_folder=__CONFIG_FOLDER__)['topics_configs']
+topics_configs =  scrape_website_topics_task(config=config,
+                                             config_folder=CONFIG_FOLDER)['topics_configs']
 topics_configs_count = len(topics_configs)
 print topics_configs
 print "Found %s topics "%topics_configs_count
