@@ -10,7 +10,7 @@ import datetime
 connect('scout')
 
 class ScrapedData(Document):
-    link = StringField(max_length=300)
+    link = StringField(max_length=500)
     title = StringField(max_length=300)
     html = StringField()
     domain = StringField(max_length=200)
@@ -24,12 +24,12 @@ class ScrapedData(Document):
     def __unicode__(self):
         return "%s.%s" %(self.entry_id, self.link)
 
-    meta = {
-        'indexes': [
-            {'fields': ['-link'], 'unique': True,
-             'sparse': True, 'types': False},
-        ],
-    }
+    # meta = {
+    #     'indexes': [
+    #         {'fields': ['-link'], 'unique': True,
+    #          'sparse': True, 'types': False},
+    #     ],
+    # }
 
     def save(self, *args, **kwargs):
         self.date = datetime.datetime.now()

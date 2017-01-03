@@ -357,13 +357,12 @@ def scrape_website_task(config=None, max_limit=None , save=True):
         if save:
             logger.debug("Requested to Save the scraped Data | Proceeding...")
             for k,v in result['full_details'].iteritems():
-                logger.debug("Saving the entry %s" %k)
-
+                logger.info("Saving the entry %s" %k)
+                logger.debug("Saving the data %s" %v)
                 ## check if the url is already saved - if saved just update the data
                 ## TODO - we can save multiple versions in FUTURE
 
                 obj = ScrapedData.objects.filter(link = k)
-
                 if obj.count() >= 1:
                     #link already exist so update
                     logger.debug("%s already exist in DB, so updating" %k)

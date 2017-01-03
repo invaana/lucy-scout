@@ -36,7 +36,7 @@
                 "scrapeMinSize": "", 
                 "doPagination": true, 
                 "nextButton": {
-                    "contains": "Next", 
+                    "contains": "Older", 
                     "selector": "a"
                 }
             }, 
