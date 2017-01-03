@@ -145,7 +145,7 @@ def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #
             return links
 
 
-def scrape_website_topics_task(config=None, max_limit=None, save=True):
+def scrape_website_topics_task(config=None, config_folder=None):
     """
     This is the extended form of the scrape_website_task().
     This method scrapes the topics from the blog url first, then
@@ -153,9 +153,10 @@ def scrape_website_topics_task(config=None, max_limit=None, save=True):
      So that new config files are called  with the  scrape_website_task method.
 
     :param config: config file in json with the key ['config]['dataPoints]['topicLinks']
-    :param max_limit: max number of topic urls to scrape
-    :param save: should i save the new configs
+    :param config_folder: config folder to which this new configs should be copied
     :return:
+    status : 200
+    topics_configs: [] # relative path urls
     """
 
     validate_config(config)
@@ -185,8 +186,7 @@ def scrape_website_topics_task(config=None, max_limit=None, save=True):
     for link in raw_links:
         links.append(make_complete_url(link, config['config']['website']))
 
-    if max_limit:
-        links= links[:max_limit]
+
 
     new_config = config.copy()
     print config['scraperName']
@@ -200,31 +200,32 @@ def scrape_website_topics_task(config=None, max_limit=None, save=True):
     print config['scraperName']
     del new_config['scraperName']
     topic_configs = []
-    if save:
+
+
+    """
+    this will save this config into topic configs
+    """
+    for i,link in enumerate(links):
+        print config['scraperName']
+
+        # print config['scraperName']
         """
-        this will save this config into topic configs
+        step2: modify the website url
         """
-        for i,link in enumerate(links):
-            print config['scraperName']
-
-            # print config['scraperName']
-            """
-            step2: modify the website url
-            """
-            new_config['config']['website'] = link
+        new_config['config']['website'] = link
 
 
-            new_config['scraperName'] = "%s-topic-%s"%(config['scraperName'],i)
+        new_config['scraperName'] = "%s-topic-%s"%(config['scraperName'],i)
 
-            topics_dir = "%s-topics"%config['scraperName']
+        topics_dir = os.path.join(config_folder, "%s-topics"%config['scraperName'])
 
-            if not os.path.exists(topics_dir):
-                os.makedirs(topics_dir)
-            topic_config = "%s/%s.json"%(topics_dir,new_config['scraperName'])
-            with open(topic_config ,'w') as f:
-                json.dump(new_config, f, indent=4,)
-                f.close()
-            topic_configs.append(topic_config)
+        if not os.path.exists(topics_dir ):
+            os.makedirs(topics_dir)
+        topic_config = "%s/%s.json"%(topics_dir,new_config['scraperName'])
+        with open(topic_config ,'w') as f:
+            json.dump(new_config, f, indent=4,)
+            f.close()
+        topic_configs.append(topic_config)
     response['status'] = 200
     response['topics_configs'] = topic_configs
     return response

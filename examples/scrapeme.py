@@ -12,13 +12,13 @@ from scout.scider.tasks import scrape_website_task, scrape_website_topics_task
 from scout.scider import helpers
 
 
-
-config_file = "configs/githubnew.json"
+__CONFIG_FOLDER__ = 'configs'
+config_file = "%s/githubnew.json"%__CONFIG_FOLDER__
 config = helpers.read_json_file(config_file)
 
 
 
-print scrape_website_topics_task(config, None, True)
+print scrape_website_topics_task(config=config,config_folder=__CONFIG_FOLDER__)
 # scrape_website_task(config, 10, False)
 #
 
