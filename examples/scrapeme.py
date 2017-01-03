@@ -8,19 +8,19 @@ CURRENT_PATH = os.path.dirname(os.path.realpath(__file__)) #adding the parent di
 SCIDER_PATH = os.path.join(CURRENT_PATH, '..') #adding the project to the python path
 sys.path.append(SCIDER_PATH)
 
-from scout.scider.tasks import scrape_website_task
+from scout.scider.tasks import scrape_website_task, scrape_website_topics_task
 from scout.scider import helpers
 
 
 
-config_file = "configs/github.json"
+config_file = "configs/githubnew.json"
 config = helpers.read_json_file(config_file)
 
 
 
-
-scrape_website_task(config, 10, True)
-
+print scrape_website_topics_task(config, None, True)
+# scrape_website_task(config, 10, False)
+#
 
 
 

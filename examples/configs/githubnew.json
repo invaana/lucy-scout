@@ -33,6 +33,12 @@
                 "valueSize": "array",
                 "valueType": "href"
             },
+            "topicLinks":{
+                "nthElement": "0",
+                "selector": "h2.blog-post-title a",
+                "valueSize": "array",
+                "valueType": "href"
+            },
             "pagination": {
                 "doPagination": true,
                 "nextButton": {
@@ -44,7 +50,7 @@
             }
         },
         "method": "requests",
-        "scrapeType": "list",
+        "scrapeType": "detailed",
         "website": "https://github.com/blog"
     },
     "scraperName": "github.blog",

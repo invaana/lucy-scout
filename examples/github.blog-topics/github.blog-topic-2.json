@@ -1,0 +1,52 @@
+{
+    "authorEmail": "rrmerugu@gmail.com", 
+    "authorName": "Ravi", 
+    "scraperName": "github.blog-topic-2", 
+    "scraperVersion": "1", 
+    "config": {
+        "website": "https://github.com/blog/2294-git-merge-2017-the-full-agenda-is-now-live", 
+        "scrapeType": "detailed", 
+        "method": "requests", 
+        "dataPoints": {
+            "linkScraper": [
+                {
+                    "nthElement": "0", 
+                    "valueSize": "string", 
+                    "valueType": "text", 
+                    "name": "title", 
+                    "selector": "a.blog-title"
+                }, 
+                {
+                    "nthElement": "0", 
+                    "valueSize": "string", 
+                    "valueType": "innerHTML", 
+                    "name": "content", 
+                    "selector": ".blog-post-body.markdown-body"
+                }, 
+                {
+                    "nthElement": "0", 
+                    "valueSize": "string", 
+                    "valueType": "text", 
+                    "name": "date", 
+                    "selector": ".blog-post-meta li:first-child"
+                }
+            ], 
+            "pagination": {
+                "scrapeMaxSize": 1500, 
+                "scrapeMinSize": "", 
+                "doPagination": true, 
+                "nextButton": {
+                    "contains": "Next", 
+                    "selector": "a"
+                }
+            }, 
+            "links": {
+                "nthElement": "0", 
+                "valueSize": "array", 
+                "valueType": "href", 
+                "selector": "h2.blog-post-title a"
+            }
+        }
+    }, 
+    "authorWebsite": "rrmerugu.github.io"
+}

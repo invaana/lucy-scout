@@ -14,7 +14,17 @@ logging.basicConfig(filename='./scout.log', filemode='w', level=logging.DEBUG, f
 logger = logging.getLogger(__name__)
 
 
+def validate_config(config):
+    """
+    Validates the config file
 
+    :param config: config file in dict format
+    :return:
+    """
+    if config is None:
+        raise "Halting the program! No config data provided"
+    if type(config) is not dict:
+        raise "Halting the program! Config file should be dictionary"
 
 
 def getElapsedTime(t ):
