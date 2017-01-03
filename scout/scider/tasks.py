@@ -137,9 +137,9 @@ def scrape_website_task(config=None, max_limit=None , save=True):
     """
 
     if config is None:
-        raise "No config data provided"
+        raise "Halting the program! No config data provided"
     if type(config) is not dict:
-        raise "Config file should be dictionary"
+        raise "Halting the program! Config file should be dictionary"
     response= {}
     logger.debug("config for this scraping task would be %s" %config)
     a = ScrapeHTML(config['config']['website'], config['config']['method'])
