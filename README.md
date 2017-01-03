@@ -10,7 +10,8 @@ The framework contains 3 modules:
 - **sanitizer** - sanitising the aggregated data to use it further for text mining and processing.
 - **db** - database module that stored the data into database (Currently supports MongoDB only)
 
-## How to install 
+## How to install
+
 
 ```
 #Install scout development version, no stable version yet
@@ -18,6 +19,9 @@ pip install -e  git+https://github.com/invaana/scout.git#egg=scout
 
 ```
 
+```
+sudo apt-get install libxml2-dev libxslt1-dev
+```
 ## How to use
 
 ```

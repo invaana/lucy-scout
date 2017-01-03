@@ -14,7 +14,6 @@ logging.basicConfig(filename='./scout.log', filemode='w', level=logging.DEBUG, f
 logger = logging.getLogger(__name__)
 
 
-from scout.settings import CONFIG_DIR
 
 
 
@@ -23,9 +22,8 @@ def getElapsedTime(t ):
 
 def read_json_file( file):
     #path = "/Users/rrmerugu/PycharmProjects/rsquarelabs-xyz-api/lucy/configs/"
-    path = CONFIG_DIR
-    file = os.path.join(CONFIG_DIR, file)
-    logger.debug("Searching for configs in Path %s "%path)
+
+    logger.debug("Searching for configs in Path %s "%file)
     logger.debug(file)
     try:
         logger.debug(file)
