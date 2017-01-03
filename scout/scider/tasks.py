@@ -69,6 +69,8 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
 def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #paginaton
     # TODO - heuristics can be improved
     """
+    This is a recursive function that scrapes the pagination part :D
+
     Heuristics applied with __SLEEP_TIME__ to pause the requests for some time , so that
     we wont bump into "TOO MANY requests " error
     :param links:
@@ -125,6 +127,11 @@ def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #
                 if paginated_html.result['status'] == 200:
                     paginated_links = gather_the_links(bs4_scrapper, paginated_html, data_points, k, config['config']['website'])
                     links= links + paginated_links
+                    # TODO - insert this paginated_links asap, don't need to carry them.
+                    """
+                    We carry them get the total count and toshow 1/3000 scraped during the detailed scraping
+                    """
+
 
                     #recurse the function to check if new pagination exists
                     return scrape_single_page(links, bs4_scrapper, paginated_html, k , config, max_limit  )
@@ -298,6 +305,10 @@ def scrape_website_task(config=None, max_limit=None , save=True):
 
             result[k] = links = list(set(links))
             logger.debug("Found %s links after pagination " %len(links))
+            """
+            Lets insert the data of links into the database
+            """
+
 
             #Step2: Gathering the full details
             result['full_details'] = {}
@@ -315,20 +326,6 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                     result['full_details'][link] = {}
                     if thishtml.result['status']== 200:
                         thishtml = thishtml.result['data']
-
-                        # for k, v in to_scrape_points.iteritems():
-                        #
-                        #     if v['valueSize'] == "string":
-                        #         data = bs4_scrapper.getString(thishtml, to_scrape_points[k]['selector'],
-                        #                                                 to_scrape_points[k]['nthElement'], to_scrape_points[k]['valueType'])
-                        #     elif v['valueSize'] == "array":
-                        #         data = bs4_scrapper.getArray(thishtml, to_scrape_points[k]['selector'],
-                        #                                                 to_scrape_points[k]['nthElement'], to_scrape_points[k]['valueType'])
-                        #     else:
-                        #         data = None
-                        #
-                        #     result['full_details'][link][k] = data
-
                         for k  in to_scrape_points:
                             logger.debug(k)
                             logger.debug(k["name"])
