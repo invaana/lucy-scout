@@ -198,3 +198,18 @@ class ScrapeDataWithBS4:
             return None
 
 
+
+class ScrapeSiteBase:
+    """
+    base class which calls every thing
+    """
+
+
+    def scrape_topics_url(self):
+        pass
+
+    def scrape_article_urls(self):
+        pass
+
+    def scrape_article_content(self):
+        pass

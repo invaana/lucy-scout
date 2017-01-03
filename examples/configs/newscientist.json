@@ -1,0 +1,58 @@
+{
+    "authorEmail": "rrmerugu@gmail.com",
+    "authorName": "Ravi",
+    "authorWebsite": "rrmerugu.github.io",
+    "config": {
+        "dataPoints": {
+            "linkScraper": [
+                {
+                    "name": "title",
+                    "nthElement": "0",
+                    "selector": ".article-title",
+                    "valueSize": "string",
+                    "valueType": "text"
+                },
+                {
+                    "name": "content",
+                    "nthElement": "0",
+                    "selector": ".article-content",
+                    "valueSize": "string",
+                    "valueType": "innerHTML"
+                },
+                {
+                    "name": "date",
+                    "nthElement": "0",
+                    "selector": ".published-date",
+                    "valueSize": "string",
+                    "valueType": "text"
+                }
+            ],
+            "links": {
+                "nthElement": "0",
+                "selector": ".entry-title a",
+                "valueSize": "array",
+                "valueType": "href"
+            },
+            "topicLinks":{
+                "nthElement": "0",
+                "selector": ".ns-header-nav-link" ,
+                "valueSize": "array",
+                "valueType": "href"
+            },
+            "pagination": {
+                "doPagination": true,
+                "nextButton": {
+                    "selector": "a",
+                    "contains": "Next"
+                },
+                "scrapeMaxSize": 1500,
+                "scrapeMinSize": ""
+            }
+        },
+        "method": "requests",
+        "scrapeType": "detailed",
+        "website": "https://www.newscientist.com/"
+    },
+    "scraperName": "newscientist.com",
+    "scraperVersion": "1"
+}

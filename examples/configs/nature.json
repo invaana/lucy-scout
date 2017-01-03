@@ -1,0 +1,58 @@
+{
+    "authorEmail": "rrmerugu@gmail.com",
+    "authorName": "Ravi",
+    "authorWebsite": "rrmerugu.github.io",
+    "config": {
+        "dataPoints": {
+            "linkScraper": [
+                {
+                    "name": "title",
+                    "nthElement": "0",
+                    "selector": "a.blog-title",
+                    "valueSize": "string",
+                    "valueType": "text"
+                },
+                {
+                    "name": "content",
+                    "nthElement": "0",
+                    "selector": ".blog-post-body.markdown-body",
+                    "valueSize": "string",
+                    "valueType": "innerHTML"
+                },
+                {
+                    "name": "date",
+                    "nthElement": "0",
+                    "selector": ".blog-post-meta li:first-child",
+                    "valueSize": "string",
+                    "valueType": "text"
+                }
+            ],
+            "links": {
+                "nthElement": "0",
+                "selector": "h2.blog-post-title a",
+                "valueSize": "array",
+                "valueType": "href"
+            },
+            "topicLinks":{
+                "nthElement": "0",
+                "selector": "ul.a2z-index-list a" ,
+                "valueSize": "array",
+                "valueType": "href"
+            },
+            "pagination": {
+                "doPagination": true,
+                "nextButton": {
+                    "selector": "a",
+                    "contains": "Next"
+                },
+                "scrapeMaxSize": 1500,
+                "scrapeMinSize": ""
+            }
+        },
+        "method": "requests",
+        "scrapeType": "detailed",
+        "website": "http://www.nature.com/siteindex/index.html"
+    },
+    "scraperName": "nature.com",
+    "scraperVersion": "1"
+}

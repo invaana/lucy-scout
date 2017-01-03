@@ -13,14 +13,23 @@ from scout.scider import helpers
 
 
 __CONFIG_FOLDER__ = 'configs'
-config_file = "%s/githubnew.json"%__CONFIG_FOLDER__
+config_file = "%s/newscientist.json"%__CONFIG_FOLDER__
 config = helpers.read_json_file(config_file)
 
 
 
-print scrape_website_topics_task(config=config,config_folder=__CONFIG_FOLDER__)
-# scrape_website_task(config, 10, False)
-#
+topics_configs =  scrape_website_topics_task(config=config,config_folder=__CONFIG_FOLDER__)['topics_configs']
+topics_configs_count = len(topics_configs)
+print topics_configs
+print "Found %s topics "%topics_configs_count
+
+for i, each_config_loc in enumerate(topics_configs):
+    print "Now detailed scrapping %s/%s topics" %(i+1, topics_configs_count)
+    config_file = each_config_loc
+    config = helpers.read_json_file(config_file)
+    scrape_website_task(config, 10, True)
+
+
 
 
 

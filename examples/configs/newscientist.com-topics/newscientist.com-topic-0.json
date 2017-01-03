@@ -1,0 +1,52 @@
+{
+    "authorEmail": "rrmerugu@gmail.com", 
+    "authorName": "Ravi", 
+    "scraperName": "newscientist.com-topic-0", 
+    "scraperVersion": "1", 
+    "config": {
+        "website": "https://www.newscientist.com/", 
+        "scrapeType": "detailed", 
+        "method": "requests", 
+        "dataPoints": {
+            "linkScraper": [
+                {
+                    "nthElement": "0", 
+                    "valueSize": "string", 
+                    "valueType": "text", 
+                    "name": "title", 
+                    "selector": ".article-title"
+                }, 
+                {
+                    "nthElement": "0", 
+                    "valueSize": "string", 
+                    "valueType": "innerHTML", 
+                    "name": "content", 
+                    "selector": ".article-content"
+                }, 
+                {
+                    "nthElement": "0", 
+                    "valueSize": "string", 
+                    "valueType": "text", 
+                    "name": "date", 
+                    "selector": ".published-date"
+                }
+            ], 
+            "pagination": {
+                "scrapeMaxSize": 1500, 
+                "scrapeMinSize": "", 
+                "doPagination": true, 
+                "nextButton": {
+                    "contains": "Next", 
+                    "selector": "a"
+                }
+            }, 
+            "links": {
+                "nthElement": "0", 
+                "valueSize": "array", 
+                "valueType": "href", 
+                "selector": ".entry-title a"
+            }
+        }
+    }, 
+    "authorWebsite": "rrmerugu.github.io"
+}
