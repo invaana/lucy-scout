@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-13", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2283-gitkraken-joins-the-student-developer-pack", 
+        "website": "https://github.com/blog/2284-new-in-the-shop-github-activity-book", 
+        "topic": "New in the Shop: GitHub Activity Book", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

@@ -132,16 +132,18 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
     logger.debug("------%s"%next_page_selector_contains)
 
 
-    if next_page_selector is None or next_page_selector == '#':
 
-        #Getting the pagination 'next' url
-        if next_page_selector_contains is not None:
-            logger.debug("Selector data is %s, %s" %(next_page_selector, next_page_selector_contains))
-            next_page_link = bs4_scrapper.getNextUrl(html.result['data'], next_page_selector, next_page_selector_contains , 'href')
-            logger.debug("Next page link which contains %s is %s" %(next_page_selector_contains,next_page_link))
-        else:
-            next_page_link = bs4_scrapper.getString(html.result['data'], next_page_selector,0 , 'href')
+
+    #Getting the pagination 'next' url
+    if next_page_selector_contains is not None:
+        logger.debug("Selector data is %s, %s" %(next_page_selector, next_page_selector_contains))
+        next_page_link = bs4_scrapper.getNextUrl(html.result['data'], next_page_selector, next_page_selector_contains , 'href')
+        logger.debug("Next page link which contains %s is %s" %(next_page_selector_contains,next_page_link))
     else:
+        next_page_link = bs4_scrapper.getString(html.result['data'], next_page_selector,0 , 'href')
+
+
+    if next_page_link == '#':
         next_page_link = None
 
     logger.debug("Next page link is %s" %next_page_link)
@@ -165,10 +167,9 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
             max_limit = dry_run_max_limit
 
 
-        now_count = len(links)
         # If found the pagination 'next' url
-        logger.debug("Currently scraped %s of max limit %s " %(now_count, max_limit))
-        if now_count <= max_limit:
+        logger.debug("Currently scraped %s of max limit %s " %(new_links_count, max_limit))
+        if new_links_count <= max_limit:
 
             if next_page_link is not None:
 
@@ -194,7 +195,7 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
                     """
                     if save:
                         save_links(links)
-
+                    logger.debug("next page found, so recursing the method")
                     #recurse the function to check if new pagination exists
                     return gather_the_links_of_pagination(links,new_links_count, bs4_scrapper, paginated_html, k , config, save, max_limit  )
 
@@ -207,15 +208,18 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
                         save_links(links)
                     # this returns the data that is gathered till failing
                     #TODO- make this failure verbose to the user, so that they can change the params
+                    logger.debug('exiting after new paginations and no furhter pagination exist')
                     return links
 
             else:
                 if save:
                     save_links(links)
+                logger.debug("exiting because no next url exist further")
                 return links # this is where ths function exists
         else:
             if save:
                 save_links(links)
+            logger.debug("exiting because max limit reached ")
             #max limit reached so sent the links
             return links
 
@@ -334,46 +338,12 @@ def scrape_website_task(config=None, max_limit=None , save=True):
         result = {}
 
 
-        # if config['config']['scrapeType'] == "dryrun":
-        #     logger.debug(data_points)
-        #     for k, v in data_points.iteritems():
-        #         logger.debug(k)
-        #         logger.debug(v)
-        #         if v['valueSize'] == "string":
-        #             result[k] = bs4_scrapper.getString(a.result['data'],
-        #                                                data_points[k]['selector'],
-        #                                                data_points[k]['nthElement'],
-        #                                                data_points[k]['valueType'])
-        #         elif v['valueSize'] == "array":
-        #             result[k] = bs4_scrapper.getArray(a.result['data'],
-        #                                               data_points[k]['selector'],
-        #                                               data_points[k]['nthElement'],
-        #                                               data_points[k]['valueType'])
-        #         else:
-        #             result[k] = None
-        #
-        # if config['config']['scrapeType'] == "list":
-        #     for k, v in data_points.iteritems():
-        #         if v['valueSize'] == "string":
-        #             result[k] = bs4_scrapper.getString(a.result['data'],
-        #                                                data_points[k]['selector'],
-        #                                                data_points[k]['nthElement'],
-        #                                                data_points[k]['valueType'])
-        #         elif v['valueSize'] == "array":
-        #             result[k] = bs4_scrapper.getArray(a.result['data'],
-        #                                               data_points[k]['selector'],
-        #                                               data_points[k]['nthElement'],
-        #                                               data_points[k]['valueType'])
-        #         else:
-        #             result[k] = None
-
-
 
         ## first get the links
         k = "links"
         links = []
         links_count = 0
-        if config['config']['dataPoints']['pagination']['doPagination']  != True:
+        if config['config']['dataPoints']['pagination']['doPagination']  == False:
             #Step1: Gathering the links
             links = gather_the_links(bs4_scrapper,
                                      a,
@@ -382,7 +352,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                                      config['config']['website'])
 
 
-        if config['config']['dataPoints']['pagination']['doPagination']  == True:
+        else: # when pagination is true
             ## First scape the page
             if max_limit:
                 kw = {'max_limit': max_limit}
@@ -392,13 +362,14 @@ def scrape_website_task(config=None, max_limit=None , save=True):
             # overriding the max_limit for dryrun type
             if config['config']['scrapeType'] == 'dryrun':
                 kw = {'max_limit': dry_run_max_limit}
+
             links = gather_the_links_of_pagination(links, links_count, bs4_scrapper, a, k , config, save, **kw)
 
 
 
         result[k] = links = {v['href']:v for v in links}.values() # list(set(links))
         result['links_count']= len(links)
-        logger.debug("Found %s links after pagination " %len(links))
+        logger.debug("Found %s links found at the end  " %len(links))
         """
         Lets insert the data of links into the database
         """

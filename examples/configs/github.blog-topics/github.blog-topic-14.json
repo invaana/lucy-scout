@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-14", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2282-operation-code-connecting-tech-and-veterans", 
+        "website": "https://github.com/blog/2283-gitkraken-joins-the-student-developer-pack", 
+        "topic": "GitKraken joins the Student Developer Pack", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

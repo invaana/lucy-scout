@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-10", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2286-new-in-the-shop-the-octoplush", 
+        "website": "https://github.com/blog/2287-git-merge-2017-tickets-are-now-available", 
+        "topic": "Git Merge 2017 tickets are now available", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

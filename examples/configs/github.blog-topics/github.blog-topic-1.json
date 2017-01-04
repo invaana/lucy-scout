@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-1", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2295-new-theme-chooser-for-github-pages", 
+        "website": "https://github.com/blog/2296-save-the-date-github-universe-2017", 
+        "topic": "Save the date: GitHub Universe 2017", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

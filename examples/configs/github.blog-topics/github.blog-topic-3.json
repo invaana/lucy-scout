@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-3", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2292-game-off-iv-highlights", 
+        "website": "https://github.com/blog/2294-git-merge-2017-the-full-agenda-is-now-live", 
+        "topic": "Git Merge 2017: the full agenda is now live", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

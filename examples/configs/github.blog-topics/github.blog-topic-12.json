@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-12", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2284-new-in-the-shop-github-activity-book", 
+        "website": "https://github.com/blog/2285-github-extension-now-supports-visual-studio-2017-rc", 
+        "topic": "GitHub Extension now supports Visual Studio 2017 RC", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

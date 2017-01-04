@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-11", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2285-github-extension-now-supports-visual-studio-2017-rc", 
+        "website": "https://github.com/blog/2286-new-in-the-shop-the-octoplush", 
+        "topic": "New in the shop: The Octoplush", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

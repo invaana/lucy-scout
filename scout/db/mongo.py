@@ -7,7 +7,7 @@ from mongoengine import StringField, DateTimeField, ListField, DictField, Docume
 import datetime
 
 
-connect('scout')
+
 
 class ScrapedData(Document):
     link = StringField(max_length=500)

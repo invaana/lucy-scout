@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-8", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2288-git-2-11-has-been-released", 
+        "website": "https://github.com/blog/2290-relative-links-for-github-pages", 
+        "topic": "Relative links for GitHub pages", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

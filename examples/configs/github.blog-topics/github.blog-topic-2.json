@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-2", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2294-git-merge-2017-the-full-agenda-is-now-live", 
+        "website": "https://github.com/blog/2295-new-theme-chooser-for-github-pages", 
+        "topic": "New theme chooser for GitHub Pages", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

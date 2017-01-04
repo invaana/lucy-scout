@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-9", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2287-git-merge-2017-tickets-are-now-available", 
+        "website": "https://github.com/blog/2288-git-2-11-has-been-released", 
+        "topic": "Git 2.11 has been released", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

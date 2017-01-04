@@ -8,11 +8,17 @@ CURRENT_PATH = os.path.dirname(os.path.realpath(__file__)) #adding the parent di
 SCIDER_PATH = os.path.join(CURRENT_PATH, '..') #adding the project to the python path
 sys.path.append(SCIDER_PATH)
 
+
+
+
 from scout.scider.tasks import scrape_website_task, scrape_website_topics_task
 from scout.scider import helpers
+from scout.db.mongo import connect
+connect('scout', host='52.74.86.160')
 
 CONFIG_FOLDER = 'configs'
-config_file = "%s/newscientist.json"%CONFIG_FOLDER
+
+config_file = "%s/githubnew.json"%CONFIG_FOLDER
 config = helpers.read_json_file(config_file)
 
 

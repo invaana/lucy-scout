@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-0", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2296-save-the-date-github-universe-2017", 
+        "website": "https://github.com/blog/2299-search-commit-messages", 
+        "topic": "Search commit messages", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

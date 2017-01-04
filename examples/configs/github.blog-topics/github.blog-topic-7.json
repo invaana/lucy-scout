@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-7", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2290-relative-links-for-github-pages", 
+        "website": "https://github.com/blog/2291-introducing-review-requests", 
+        "topic": "Introducing review requests", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

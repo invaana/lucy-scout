@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-6", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2291-introducing-review-requests", 
+        "website": "https://github.com/blog/2289-publishing-with-github-pages-now-as-easy-as-1-2-3", 
+        "topic": "Publishing with GitHub Pages, now as easy as 1, 2, 3", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

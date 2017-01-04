@@ -4,7 +4,8 @@
     "scraperName": "github.blog-topic-5", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2289-publishing-with-github-pages-now-as-easy-as-1-2-3", 
+        "website": "https://github.com/blog/2293-resolve-simple-merge-conflicts-on-github", 
+        "topic": "Resolve simple merge conflicts on GitHub", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {
