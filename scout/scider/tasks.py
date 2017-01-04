@@ -131,13 +131,16 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
         next_page_selector_contains = None
     logger.debug("------%s"%next_page_selector_contains)
 
-    #Getting the pagination 'next' url
-    if next_page_selector_contains is not None:
-        logger.debug("Selector data is %s, %s" %(next_page_selector, next_page_selector_contains))
-        next_page_link = bs4_scrapper.getNextUrl(html.result['data'], next_page_selector, next_page_selector_contains , 'href')
-        logger.debug("Next page link which contains %s is %s" %(next_page_selector_contains,next_page_link))
-    else:
-        next_page_link = bs4_scrapper.getString(html.result['data'], next_page_selector,0 , 'href')
+
+    if next_page_selector is None or next_page_selector == '#':
+
+        #Getting the pagination 'next' url
+        if next_page_selector_contains is not None:
+            logger.debug("Selector data is %s, %s" %(next_page_selector, next_page_selector_contains))
+            next_page_link = bs4_scrapper.getNextUrl(html.result['data'], next_page_selector, next_page_selector_contains , 'href')
+            logger.debug("Next page link which contains %s is %s" %(next_page_selector_contains,next_page_link))
+        else:
+            next_page_link = bs4_scrapper.getString(html.result['data'], next_page_selector,0 , 'href')
 
 
     logger.debug("Next page link is %s" %next_page_link)
