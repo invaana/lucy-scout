@@ -10,7 +10,7 @@ __author__ = 'rrmerugu'
 
 import  json, time, urllib2, logging, os
 FORMAT = "%(asctime)-15s %(levelname)s %(lineno)d %(name)s \t: %(message)s"
-logging.basicConfig(filename='./scout.log', filemode='w', level=logging.DEBUG, format=FORMAT)
+logging.basicConfig(filename='./scout.log', filemode='w', level=logging.INFO, format=FORMAT)
 logger = logging.getLogger(__name__)
 
 
