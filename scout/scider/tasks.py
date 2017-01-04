@@ -147,9 +147,14 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
 
 
         if max_limit is None:
-            max_limit =config['config']['dataPoints']['pagination']['scrapeMaxSize']
+            max_limit = config['config']['dataPoints']['pagination']['scrapeMaxSize']
+        else:
+            # overriding the config maxsize
+            config['config']['dataPoints']['pagination']['scrapeMaxSize'] = max_limit
         if max_limit is None:
             max_limit = dry_run_max_limit
+
+
         now_count = len(links)
         # If found the pagination 'next' url
         logger.debug("Currently scraped %s of max limit %s " %(now_count, max_limit))
