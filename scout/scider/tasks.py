@@ -71,16 +71,19 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
     #                               data_points[k]['selector'],
     #                               data_points[k]['nthElement'],
     #                               data_points[k]['valueType'])
+
     links = bs4_scrapper.getValuesDict(a.result['data'],
                                      data_points[k]['selector'],
                                        ['href','text'])
     print links
-    exit()
-    print "0-0-0-"
+
 
     links_cleaned = []
-    for link in links:
-        links_cleaned.append(make_complete_url(link, website))
+    for d in links:
+        d['href'] = make_complete_url(d['href'], website)
+        links_cleaned.append(d)
+    print links_cleaned
+    exit()
     return links_cleaned
 
 
