@@ -6,7 +6,7 @@
     "config": {
         "website": "https://www.newscientist.com/subject/space/", 
         "topic": "SPACE", 
-        "scrapeType": "list", 
+        "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {
             "linkScraper": [

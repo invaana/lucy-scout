@@ -6,7 +6,7 @@
     "config": {
         "website": "https://www.newscientist.com/subject/humans/", 
         "topic": "HUMANS", 
-        "scrapeType": "list", 
+        "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {
             "linkScraper": [

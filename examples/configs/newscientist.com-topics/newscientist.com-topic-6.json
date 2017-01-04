@@ -6,7 +6,7 @@
     "config": {
         "website": "https://www.newscientist.com/subject/earth/", 
         "topic": "EARTH", 
-        "scrapeType": "list", 
+        "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {
             "linkScraper": [

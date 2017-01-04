@@ -6,7 +6,7 @@
     "config": {
         "website": "https://www.newscientist.com/section/news/", 
         "topic": "NEWS", 
-        "scrapeType": "list", 
+        "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {
             "linkScraper": [

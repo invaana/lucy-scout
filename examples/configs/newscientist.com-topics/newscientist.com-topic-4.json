@@ -6,7 +6,7 @@
     "config": {
         "website": "https://www.newscientist.com/subject/physics/", 
         "topic": "PHYSICS", 
-        "scrapeType": "list", 
+        "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {
             "linkScraper": [

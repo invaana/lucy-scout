@@ -438,7 +438,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                             else:
                                 data = None
 
-                            result['full_details'][link][k["name"]] = data
+                            result['full_details'][link['href']][k["name"]] = data
 
                     else:
                         pass
