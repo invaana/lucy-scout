@@ -34,12 +34,12 @@ def read_json_file( file):
     #path = "/Users/rrmerugu/PycharmProjects/rsquarelabs-xyz-api/lucy/configs/"
 
     logger.debug("Searching for configs in Path %s "%file)
-    logger.debug(file)
+    # logger.debug(file)
     try:
         logger.debug(file)
         with open(file) as data_file:
             temp = data_file.read().replace('\n','').replace('\t','')
-            logger.debug(temp)
+            # logger.debug(temp)
             data = json.loads(temp)
 
             return data

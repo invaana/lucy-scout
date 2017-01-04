@@ -58,7 +58,7 @@ def test_task():
 
 def gather_the_links(bs4_scrapper, a, data_points, k, website):
     """
-    This will scrape the links, from a page
+    This will scrape the links, from a page,
     
     :param bs4_scrapper: 
     :param a: 
@@ -67,10 +67,16 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
     :param website: 
     :return: 
     """
-    links = bs4_scrapper.getArray(a.result['data'],
-                                  data_points[k]['selector'],
-                                  data_points[k]['nthElement'],
-                                  data_points[k]['valueType'])
+    # links = bs4_scrapper.getArray(a.result['data'],
+    #                               data_points[k]['selector'],
+    #                               data_points[k]['nthElement'],
+    #                               data_points[k]['valueType'])
+    links = bs4_scrapper.getValuesDict(a.result['data'],
+                                     data_points[k]['selector'],
+                                       ['href','text'])
+    print links
+    exit()
+    print "0-0-0-"
 
     links_cleaned = []
     for link in links:
@@ -309,7 +315,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
         # now go to the second step
         data_points = config['config']['dataPoints']  # this is a dict
 
-        logger.debug(data_points)
+        #logger.debug(data_points)
         i = "titles"
 
         bs4_scrapper = ScrapeDataWithBS4()

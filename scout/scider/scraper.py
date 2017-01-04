@@ -112,15 +112,84 @@ class ScrapeDataWithBS4:
 
     """
 
-    def getElement(self, html, selector, num):
 
+    def getValuesDict(self, html, selector, values=["href","text"] ):
+        html = html
+        selector = str(selector)
+        if type(values) is not list:
+            raise "values should be a lit"
+        thelist = []
         try:
             html = soup(html,'lxml')
-            elem = html.select(selector)[num]
+
+
+            elems = html.select(selector)
+            print len(elems)
+            print elems
+
+            for e in elems:
+                print e
+                d = {}
+                for v in values:
+                    if v in ['string','text']:
+                        d[v] = e.get_text()
+                    else:
+                        d[v] = e.get(v)
+                    if d[v]:
+                        d[v] = d[v].lstrip().rstrip().encode('utf-8')
+                    print v
+                    print d[v]
+                thelist.append(d)
+
+            return thelist
         except Exception as e:
             logger.error(e)
-            elem = None
-        return elem
+
+            return []
+
+
+
+    def getElementBlockList(self, html, selector, ):
+        """
+        This is handy incase you want a list of block info
+
+        Example:
+
+        <div class="box">
+        <h3><a href="lalalaa">Im a god</a></h3>
+        <p>i told you im a god father </p>
+        </div>
+
+        <div class="box">
+        <h3><a href="lalalaa">Im a godess</a></h3>
+        <p>i told you im a godess  </p>
+        </div>
+
+
+        <div class="box">
+        <h3><a href="lalalaa">Im a dupe</a></h3>
+        <p>i told you im a dupe </p>
+        </div>
+
+        :param html:
+        :param selector:
+        :return:
+        """
+        try:
+            html = soup(html,'lxml')
+            elems = html.select(selector)
+        except Exception as e:
+            logger.error(e)
+            elems = None
+        return elems
+
+    def getElement(self, html, selector, num):
+
+        elems = self.getElementBlockList(html, selector)
+        if elems:
+            return elems[num]
+        else:
+            return None
 
     def getString(self, html, selector, num, value_type):
 
