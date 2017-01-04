@@ -366,8 +366,9 @@ def scrape_website_task(config=None, max_limit=None , save=True):
             links = gather_the_links_of_pagination(links, links_count, bs4_scrapper, a, k , config, save, **kw)
 
 
-
+        print len(links)
         result[k] = links = {v['href']:v for v in links}.values() # list(set(links))
+        print len(links)
         result['links_count']= len(links)
         logger.debug("Found %s links found at the end  " %len(links))
         """
