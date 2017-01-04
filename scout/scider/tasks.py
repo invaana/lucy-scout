@@ -16,6 +16,7 @@ from .helpers import validate_config
 # from .models import ScrapedData
 from scout.db.mongo import ScrapedData
 logger = logging.getLogger(__name__)
+from scout.settings import dry_run_max_limit
 
 
 def gen_random_decimal(i,d):
@@ -56,8 +57,20 @@ def test_task():
     return "Super Test Successfull"
 
 def gather_the_links(bs4_scrapper, a, data_points, k, website):
-    links = bs4_scrapper.getArray(a.result['data'], data_points[k]['selector'],
-                                                                data_points[k]['nthElement'], data_points[k]['valueType'])
+    """
+    This will scrape the links, from a page
+    
+    :param bs4_scrapper: 
+    :param a: 
+    :param data_points: 
+    :param k: 
+    :param website: 
+    :return: 
+    """
+    links = bs4_scrapper.getArray(a.result['data'],
+                                  data_points[k]['selector'],
+                                  data_points[k]['nthElement'],
+                                  data_points[k]['valueType'])
 
     links_cleaned = []
     for link in links:
@@ -66,7 +79,7 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
 
 
 
-def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #paginaton
+def gather_the_links_of_pagination(links, bs4_scrapper, html, k , config, max_limit=None): #paginaton
     # TODO - heuristics can be improved
     """
     This is a recursive function that scrapes the pagination part :D
@@ -136,7 +149,7 @@ def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #
 
 
                     #recurse the function to check if new pagination exists
-                    return scrape_single_page(links, bs4_scrapper, paginated_html, k , config, max_limit  )
+                    return gather_the_links_of_pagination(links, bs4_scrapper, paginated_html, k , config, max_limit  )
 
                 else:
                     logger.debug(paginated_html.result)
@@ -198,7 +211,6 @@ def scrape_website_topics_task(config=None, config_folder=None):
 
 
     new_config = config.copy()
-    print config['scraperName']
     """
         step1: delete the config['config']['dataPoints']['topicLinks']
     so that the new one dont go to topic scraping again
@@ -206,7 +218,6 @@ def scrape_website_topics_task(config=None, config_folder=None):
     del new_config['config']['dataPoints']['topicLinks']
 
     # SANITISE THE SCRAPER NAME
-    print config['scraperName']
     del new_config['scraperName']
     topic_configs = []
 
@@ -215,17 +226,13 @@ def scrape_website_topics_task(config=None, config_folder=None):
     this will save this config into topic configs
     """
     for i,link in enumerate(links):
-        print config['scraperName']
 
         # print config['scraperName']
         """
         step2: modify the website url
         """
         new_config['config']['website'] = link
-
-
         new_config['scraperName'] = "%s-topic-%s"%(config['scraperName'],i)
-
         topics_dir = os.path.join(config_folder, "%s-topics"%config['scraperName'])
 
         if not os.path.exists(topics_dir ):
@@ -269,51 +276,78 @@ def scrape_website_task(config=None, max_limit=None , save=True):
         result = {}
 
 
-        if config['config']['scrapeType'] == "list":
-            for k, v in data_points.iteritems():
-                if v['valueSize'] == "string":
-                    result[k] = bs4_scrapper.getString(a.result['data'],
-                                                       data_points[k]['selector'],
-                                                       data_points[k]['nthElement'],
-                                                       data_points[k]['valueType'])
-                elif v['valueSize'] == "array":
-                    result[k] = bs4_scrapper.getArray(a.result['data'],
-                                                      data_points[k]['selector'],
-                                                      data_points[k]['nthElement'],
-                                                      data_points[k]['valueType'])
-                else:
-                    result[k] = None
-        elif config['config']['scrapeType'] == "detailed":
-            ## first get the links
-            k = "links"
-            links = []
-            if config['config']['dataPoints']['pagination']['doPagination']  != True:
-                #Step1: Gathering the links
-                links = gather_the_links(bs4_scrapper,
-                                         a,
-                                         data_points,
-                                         k,
-                                         config['config']['website'])
-
-            if config['config']['dataPoints']['pagination']['doPagination']  == True:
-                ## First scape the page
-                if max_limit:
-                    kw = {'max_limit': max_limit}
-                else:
-                    kw = {}
-                links = scrape_single_page(links, bs4_scrapper, a, k , config, **kw)
-
+        # if config['config']['scrapeType'] == "dryrun":
+        #     logger.debug(data_points)
+        #     for k, v in data_points.iteritems():
+        #         logger.debug(k)
+        #         logger.debug(v)
+        #         if v['valueSize'] == "string":
+        #             result[k] = bs4_scrapper.getString(a.result['data'],
+        #                                                data_points[k]['selector'],
+        #                                                data_points[k]['nthElement'],
+        #                                                data_points[k]['valueType'])
+        #         elif v['valueSize'] == "array":
+        #             result[k] = bs4_scrapper.getArray(a.result['data'],
+        #                                               data_points[k]['selector'],
+        #                                               data_points[k]['nthElement'],
+        #                                               data_points[k]['valueType'])
+        #         else:
+        #             result[k] = None
+        #
+        # if config['config']['scrapeType'] == "list":
+        #     for k, v in data_points.iteritems():
+        #         if v['valueSize'] == "string":
+        #             result[k] = bs4_scrapper.getString(a.result['data'],
+        #                                                data_points[k]['selector'],
+        #                                                data_points[k]['nthElement'],
+        #                                                data_points[k]['valueType'])
+        #         elif v['valueSize'] == "array":
+        #             result[k] = bs4_scrapper.getArray(a.result['data'],
+        #                                               data_points[k]['selector'],
+        #                                               data_points[k]['nthElement'],
+        #                                               data_points[k]['valueType'])
+        #         else:
+        #             result[k] = None
 
 
-            result[k] = links = list(set(links))
-            logger.debug("Found %s links after pagination " %len(links))
-            """
-            Lets insert the data of links into the database
-            """
+
+        ## first get the links
+        k = "links"
+        links = []
+        if config['config']['dataPoints']['pagination']['doPagination']  != True:
+            #Step1: Gathering the links
+            links = gather_the_links(bs4_scrapper,
+                                     a,
+                                     data_points,
+                                     k,
+                                     config['config']['website'])
 
 
+        if config['config']['dataPoints']['pagination']['doPagination']  == True:
+            ## First scape the page
+            if max_limit:
+                kw = {'max_limit': max_limit}
+            else:
+                kw = {}
+
+            # overriding the max_limit for dryrun type
+            if config['config']['scrapeType'] == 'dryrun':
+                kw = {'max_limit': dry_run_max_limit}
+            links = gather_the_links_of_pagination(links, bs4_scrapper, a, k , config, **kw)
+
+
+
+        result[k] = links = list(set(links))
+        logger.debug("Found %s links after pagination " %len(links))
+        """
+        Lets insert the data of links into the database
+        """
+
+        result['full_details'] = {}
+        if  config['config']['scrapeType'] == "detailed":
+            # if it is detailed type, the scraper will scrape more more info, ie., every datapoint
             #Step2: Gathering the full details
-            result['full_details'] = {}
+
             logger.debug(links)
             if len(links)>=1:
                 to_scrape_points = data_points['linkScraper']

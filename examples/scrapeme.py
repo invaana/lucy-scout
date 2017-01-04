@@ -11,7 +11,6 @@ sys.path.append(SCIDER_PATH)
 from scout.scider.tasks import scrape_website_task, scrape_website_topics_task
 from scout.scider import helpers
 
-
 CONFIG_FOLDER = 'configs'
 config_file = "%s/newscientist.json"%CONFIG_FOLDER
 config = helpers.read_json_file(config_file)
@@ -30,7 +29,7 @@ for i, each_config_loc in enumerate(topics_configs):
     print "Now detailed scrapping %s/%s topics" %(i+1, topics_configs_count)
     config_file = each_config_loc
     config = helpers.read_json_file(config_file)
-    scrape_website_task(config, 10000, True)
+    print scrape_website_task(config, 10000, True)
 
 
 

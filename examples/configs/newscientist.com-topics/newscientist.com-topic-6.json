@@ -5,7 +5,7 @@
     "scraperVersion": "1", 
     "config": {
         "website": "https://www.newscientist.com/subject/earth/", 
-        "scrapeType": "detailed", 
+        "scrapeType": "dryrun", 
         "method": "requests", 
         "dataPoints": {
             "linkScraper": [

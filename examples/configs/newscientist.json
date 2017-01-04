@@ -50,7 +50,7 @@
             }
         },
         "method": "requests",
-        "scrapeType": "detailed",
+        "scrapeType": "dryrun",
         "website": "https://www.newscientist.com/"
     },
     "scraperName": "newscientist.com",
