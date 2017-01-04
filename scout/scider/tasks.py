@@ -141,7 +141,8 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
             logger.debug("Next page link which contains %s is %s" %(next_page_selector_contains,next_page_link))
         else:
             next_page_link = bs4_scrapper.getString(html.result['data'], next_page_selector,0 , 'href')
-
+    else:
+        next_page_link = None
 
     logger.debug("Next page link is %s" %next_page_link)
     if next_page_link == None:
