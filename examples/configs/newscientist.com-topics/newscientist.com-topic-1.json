@@ -5,7 +5,7 @@
     "scraperVersion": "1", 
     "config": {
         "website": "https://www.newscientist.com/section/news/", 
-        "scrapeType": "dryrun", 
+        "scrapeType": "list", 
         "method": "requests", 
         "dataPoints": {
             "linkScraper": [

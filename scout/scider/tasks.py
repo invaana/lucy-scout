@@ -73,17 +73,13 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
     #                               data_points[k]['valueType'])
 
     links = bs4_scrapper.getValuesDict(a.result['data'],
-                                     data_points[k]['selector'],
-                                       ['href','text'])
-    print links
-
+                                     data_points[k]['selector'] )
 
     links_cleaned = []
     for d in links:
         d['href'] = make_complete_url(d['href'], website)
         links_cleaned.append(d)
-    print links_cleaned
-    exit()
+
     return links_cleaned
 
 
@@ -91,10 +87,10 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
 def save_links(links):
     for link in links:
         try:
-            obj = ScrapedData(link=link)
-            obj.domain=get_domain_name(link)
+            obj = ScrapedData(link=link['href'])
+            obj.title = link['text']
+            obj.domain=get_domain_name(link['href'])
             obj.save()
-            print obj
             logger.info("Saved the entry %s" % link)
         except Exception as e:
             logger.error(e)
@@ -390,7 +386,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
 
 
 
-        result[k] = links = list(set(links))
+        result[k] = links = {v['href']:v for v in links}.values() # list(set(links))
         result['links_count']= len(links)
         logger.debug("Found %s links after pagination " %len(links))
         """
@@ -412,8 +408,8 @@ def scrape_website_task(config=None, max_limit=None , save=True):
 
 
                     logger.debug("Scraping the link %s/%s):%s" %(i,total,link))
-                    thishtml = ScrapeHTML(link, config['config']['method'])
-                    result['full_details'][link] = {}
+                    thishtml = ScrapeHTML(link['href'], config['config']['method'])
+                    result['full_details'][link['href']] = {}
                     if thishtml.result['status']== 200:
                         thishtml = thishtml.result['data']
                         for k  in to_scrape_points:

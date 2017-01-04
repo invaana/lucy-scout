@@ -117,28 +117,20 @@ class ScrapeDataWithBS4:
         html = html
         selector = str(selector)
         if type(values) is not list:
-            raise "values should be a lit"
+            raise "values should be a list"
         thelist = []
         try:
             html = soup(html,'lxml')
-
-
             elems = html.select(selector)
-            print len(elems)
-            print elems
-
             for e in elems:
-                print e
                 d = {}
                 for v in values:
-                    if v in ['string','text']:
+                    if v in ['text']:
                         d[v] = e.get_text()
                     else:
                         d[v] = e.get(v)
                     if d[v]:
                         d[v] = d[v].lstrip().rstrip().encode('utf-8')
-                    print v
-                    print d[v]
                 thelist.append(d)
 
             return thelist

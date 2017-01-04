@@ -24,12 +24,12 @@ class ScrapedData(Document):
     def __unicode__(self):
         return "%s" %( self.link)
 
-    # meta = {
-    #     'indexes': [
-    #         {'fields': ['-link'], 'unique': True,
-    #          'sparse': True, 'types': False},
-    #     ],
-    # }
+    meta = {
+        'indexes': [
+            {'fields': ['-link'], 'unique': True,
+             'sparse': True,  },
+        ],
+    }
 
     def save(self, *args, **kwargs):
         self.date = datetime.datetime.now()
