@@ -86,8 +86,6 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
 from mongoengine.errors import NotUniqueError
 
 def save_links(links):
-    logger.info("Requested to save %s links" %len(links))
-    logger.info("unique among the above %s" %len({v['href']:v for v in links}.values()))
     for link in links:
         try:
             obj = ScrapedData(link=link['href'])
@@ -118,16 +116,9 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
     :param max_limit:
     :return:
     """
-    logger.info("Found %s link from old_links " %old_links_count)
     data_points = config['config']['dataPoints']
     links =  gather_the_links(bs4_scrapper, html, data_points, k, config['config']['website'])
-
-
-
     new_links_count = old_links_count + len(links)
-    # adding the
-    logger.info("old count now is %s" % old_links_count)
-    logger.info("Found %s links before pagination " %new_links_count)
 
     ## Look for next and write a recursion
     next_page_selector  = config['config']['dataPoints']['pagination'] ['nextButton']['selector']
@@ -174,27 +165,14 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
 
 
         # If found the pagination 'next' url
-        logger.info("Found %s of max limit %s " %(new_links_count, max_limit))
         if new_links_count <= max_limit:
-
             if next_page_link is not None:
-
                 logger.debug("Sleeping for %s seconds to make this call more realistic/not a bot(heuritics)" %__SLEEP_TIME__)
                 sleep(__SLEEP_TIME__)
-
                  # Time in seconds.
                 paginated_html = ScrapeHTML(next_page_link, config['config']['method'])
 
                 if paginated_html.result['status'] == 200:
-                    paginated_links = gather_the_links(bs4_scrapper, paginated_html, data_points, k, config['config']['website'])
-                    links= links + paginated_links
-
-                    # links contains the first scraped links + paginated links. so no need to add new_links_count again
-                    logger.info("old count now is %s" %old_links_count)
-                    new_links_count = new_links_count + len(paginated_links)
-
-                    logger.info("Found %s links after pagination " % new_links_count)
-
                     """
                     TODO -
                     insert the links into db as and when they are scraped, we dont want to carry them with every time,
@@ -204,8 +182,7 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
                     """
                     if save:
                         save_links(links)
-                    logger.info(len(links))
-                    logger.info("-=-=-=-")
+                    logger.info("Gathered and saved %s/%s (max limit) entries" % (new_links_count, max_limit))
                     logger.debug("next page found, so recursing the method")
                     #recurse the function to check if new pagination exists
                     links = []
@@ -220,7 +197,7 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
                         save_links(links)
                     # this returns the data that is gathered till failing
                     #TODO- make this failure verbose to the user, so that they can change the params
-                    logger.debug('exiting after new paginations and no furhter pagination exist')
+                    logger.debug('exiting after new paginations and no further pagination exist')
                     return links
 
             else:
