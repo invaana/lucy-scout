@@ -79,7 +79,20 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
 
 
 
-def gather_the_links_of_pagination(links, bs4_scrapper, html, k , config, max_limit=None): #paginaton
+def save_links(links):
+    for link in links:
+        try:
+            obj = ScrapedData(link=link)
+            obj.domain=get_domain_name(link)
+            obj.save()
+            print obj
+            logger.info("Saved the entry %s" % link)
+        except Exception as e:
+            logger.error(e)
+            logger.error("Failed to save the entry %s" % link)
+
+
+def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, html, k , config, save, max_limit=None): #paginaton
     # TODO - heuristics can be improved
     """
     This is a recursive function that scrapes the pagination part :D
@@ -95,8 +108,14 @@ def gather_the_links_of_pagination(links, bs4_scrapper, html, k , config, max_li
     :return:
     """
     data_points = config['config']['dataPoints']
-    links = links +  gather_the_links(bs4_scrapper, html, data_points, k, config['config']['website'])
-    logger.debug("Found %s links before pagination " %len(links))
+    links =  gather_the_links(bs4_scrapper, html, data_points, k, config['config']['website'])
+
+
+
+    new_links_count = old_links_count + len(links)
+    # adding the
+    links = links + old_links
+    logger.info("Found %s links before pagination " %new_links_count)
 
     ## Look for next and write a recursion
     next_page_selector  = config['config']['dataPoints']['pagination'] ['nextButton']['selector']
@@ -118,7 +137,10 @@ def gather_the_links_of_pagination(links, bs4_scrapper, html, k , config, max_li
     logger.debug("Next page link is %s" %next_page_link)
     if next_page_link == None:
         logger.debug("reached no next url, so pushing whatever sofar done to results")
+        if save:
+            save_links(links)
         return links
+
     else:
 
         next_page_link = make_complete_url(next_page_link, config['config']['website'])
@@ -126,6 +148,8 @@ def gather_the_links_of_pagination(links, bs4_scrapper, html, k , config, max_li
 
         if max_limit is None:
             max_limit =config['config']['dataPoints']['pagination']['scrapeMaxSize']
+        if max_limit is None:
+            max_limit = dry_run_max_limit
         now_count = len(links)
         # If found the pagination 'next' url
         logger.debug("Currently scraped %s of max limit %s " %(now_count, max_limit))
@@ -142,27 +166,41 @@ def gather_the_links_of_pagination(links, bs4_scrapper, html, k , config, max_li
                 if paginated_html.result['status'] == 200:
                     paginated_links = gather_the_links(bs4_scrapper, paginated_html, data_points, k, config['config']['website'])
                     links= links + paginated_links
-                    # TODO - insert this paginated_links asap, don't need to carry them.
-                    """
-                    We carry them get the total count and toshow 1/3000 scraped during the detailed scraping
-                    """
 
+                    # links contains the first scraped links + paginated links. so no need to add new_links_count again
+                    new_links_count = old_links_count + len(links)
+
+                    """
+                    TODO -
+                    insert the links into db as and when they are scraped, we dont want to carry them with every time,
+                    need to duplicate 'links' param in gather_the_links_of_pagination() method.
+
+                    remove links variable to save ram (may be) cause we already pushed them to db, but we still need count
+                    """
+                    if save:
+                        save_links(links)
 
                     #recurse the function to check if new pagination exists
-                    return gather_the_links_of_pagination(links, bs4_scrapper, paginated_html, k , config, max_limit  )
+                    return gather_the_links_of_pagination(links,new_links_count, bs4_scrapper, paginated_html, k , config, save, max_limit  )
 
                 else:
                     logger.debug(paginated_html.result)
                     logger.error(paginated_html.result['mesg'])
                     logger.error("Unable to gather the paginated page data ")
 
+                    if save:
+                        save_links(links)
                     # this returns the data that is gathered till failing
                     #TODO- make this failure verbose to the user, so that they can change the params
                     return links
 
             else:
+                if save:
+                    save_links(links)
                 return links # this is where ths function exists
         else:
+            if save:
+                save_links(links)
             #max limit reached so sent the links
             return links
 
@@ -314,6 +352,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
         ## first get the links
         k = "links"
         links = []
+        links_count = 0
         if config['config']['dataPoints']['pagination']['doPagination']  != True:
             #Step1: Gathering the links
             links = gather_the_links(bs4_scrapper,
@@ -333,11 +372,12 @@ def scrape_website_task(config=None, max_limit=None , save=True):
             # overriding the max_limit for dryrun type
             if config['config']['scrapeType'] == 'dryrun':
                 kw = {'max_limit': dry_run_max_limit}
-            links = gather_the_links_of_pagination(links, bs4_scrapper, a, k , config, **kw)
+            links = gather_the_links_of_pagination(links, links_count, bs4_scrapper, a, k , config, save, **kw)
 
 
 
         result[k] = links = list(set(links))
+        result['links_count']= len(links)
         logger.debug("Found %s links after pagination " %len(links))
         """
         Lets insert the data of links into the database

@@ -22,7 +22,7 @@ class ScrapedData(Document):
     date =  DateTimeField(db_field='addDate',default=datetime.datetime.now)
 
     def __unicode__(self):
-        return "%s.%s" %(self.entry_id, self.link)
+        return "%s" %( self.link)
 
     # meta = {
     #     'indexes': [
