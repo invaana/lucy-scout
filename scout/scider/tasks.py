@@ -87,8 +87,10 @@ def scrape_single_page(links, bs4_scrapper, html, k , config, max_limit=None): #
 
     ## Look for next and write a recursion
     next_page_selector  = config['config']['dataPoints']['pagination'] ['nextButton']['selector']
-    next_page_selector_contains =  config['config']['dataPoints']['pagination'] ['nextButton']['contains']
-
+    try:
+        next_page_selector_contains =  config['config']['dataPoints']['pagination'] ['nextButton']['contains']
+    except:
+        next_page_selector_contains = None
     logger.debug("------%s"%next_page_selector_contains)
 
     #Getting the pagination 'next' url
