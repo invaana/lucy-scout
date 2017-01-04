@@ -5,6 +5,7 @@
     "scraperVersion": "1", 
     "config": {
         "website": "https://www.newscientist.com/subject/technology/", 
+        "topic": "TECHNOLOGY", 
         "scrapeType": "list", 
         "method": "requests", 
         "dataPoints": {

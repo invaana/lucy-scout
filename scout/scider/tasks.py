@@ -77,8 +77,9 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
 
     links_cleaned = []
     for d in links:
-        d['href'] = make_complete_url(d['href'], website)
-        links_cleaned.append(d)
+        if d['href']:
+            d['href'] = make_complete_url(d['href'], website)
+            links_cleaned.append(d)
 
     return links_cleaned
 
@@ -248,13 +249,17 @@ def scrape_website_topics_task(config=None, config_folder=None):
     a = ScrapeHTML(config['config']['website'], config['config']['method'])
 
     bs4_scrapper = ScrapeDataWithBS4()
-    raw_links  = bs4_scrapper.getArray(a.result['data'],
-                                              topics_scrape_data_point['selector'],
-                                              topics_scrape_data_point['nthElement'],
-                                              topics_scrape_data_point['valueType'])
+    raw_links  = bs4_scrapper.getValuesDict(a.result['data'],
+                                      topics_scrape_data_point['selector'] )
+
+
+
     links  = []
     for link in raw_links:
-        links.append(make_complete_url(link, config['config']['website']))
+
+        if link['href']:
+            link['href'] = make_complete_url(link['href'], config['config']['website'])
+            links.append(link)
 
 
 
@@ -279,7 +284,8 @@ def scrape_website_topics_task(config=None, config_folder=None):
         """
         step2: modify the website url
         """
-        new_config['config']['website'] = link
+        new_config['config']['website'] = link['href']
+        new_config['config']['topic'] = link['text']
         new_config['scraperName'] = "%s-topic-%s"%(config['scraperName'],i)
         topics_dir = os.path.join(config_folder, "%s-topics"%config['scraperName'])
 

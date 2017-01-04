@@ -5,6 +5,7 @@
     "scraperVersion": "1", 
     "config": {
         "website": "https://www.newscientist.com/subject/humans/", 
+        "topic": "HUMANS", 
         "scrapeType": "list", 
         "method": "requests", 
         "dataPoints": {

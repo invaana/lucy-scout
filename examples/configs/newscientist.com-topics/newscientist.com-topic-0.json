@@ -5,6 +5,7 @@
     "scraperVersion": "1", 
     "config": {
         "website": "https://www.newscientist.com/", 
+        "topic": "HOME", 
         "scrapeType": "list", 
         "method": "requests", 
         "dataPoints": {

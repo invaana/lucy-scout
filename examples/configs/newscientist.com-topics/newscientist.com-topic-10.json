@@ -5,6 +5,7 @@
     "scraperVersion": "1", 
     "config": {
         "website": "https://www.newscientist.com/round-up/new-scientist-events/", 
+        "topic": "EVENTS", 
         "scrapeType": "list", 
         "method": "requests", 
         "dataPoints": {
