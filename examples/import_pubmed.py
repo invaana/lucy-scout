@@ -6,56 +6,52 @@ sys.path.append(SCOUT_PATH)
 
 
 
-from scout.pubmed.parse import parse_xml_to_dict
+from scout.pubmed.parse import parse_xml_to_dict, save_dict_to_db
 from scout.db import Journal, PublicationKeyword, PublicationType
 from django.utils.encoding import smart_str
+import gzip, os
 
-
+import ftputil
 print Journal.objects.all().count()
 
-xmlfile = "pubmed/medsamp2016a.xml"
-
-thedict = parse_xml_to_dict(xmlfile)
-total = len(thedict)
-for i, d in enumerate(thedict):
-    journal_type_list = []
-    for t in d['journal_type_list']:
-        obj, status = PublicationType.objects.get_or_create(title=t)
-
-        journal_type_list.append(obj)
 
 
-    journal_keywords_list = []
-    for kw in d['journal_keywords_list']:
-        obj, status= PublicationKeyword.objects.get_or_create(title=kw)
-        journal_keywords_list.append(obj)
+# xmlfile = "pubmed/medsamp2016a.xml"
 
 
-    entry, status= Journal.objects.get_or_create(
-        title= smart_str(d['title']) #.encode('utf-8'),
-     )
+FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
 
-    abstract =  d['abstract']
-    try:
-        if abstract:
-
-            abstract = smart_str(d['abstract'])
-        if status:
-            entry.link = "https://www.ncbi.nlm.nih.gov/pubmed/%s" %d['pmid']
-            entry.journal_title= smart_str(d['journal_title'])
-            entry.abstract = abstract
-            entry.pub_year = d['pub_year']
-            entry.pub_date = d['pub_date']
-            entry.pmid = d['pmid']
-            entry.save()
-            entry.pub_type.add(*journal_type_list)
-            entry.keywords.add(*journal_keywords_list)
-
-    except Exception as e:
-        print e
-    print "%s/%s - %s" %(i, total, entry)
+all_files = os.listdir(FILES_PATH )
+for fil in all_files:
+    print "currently on %s" %fil
+    full_path = "%s/%s"%(FILES_PATH,fil)
+    f = gzip.open(full_path, 'rb')
+    file_content = f.read()
+    thedict = parse_xml_to_dict(file_content=file_content)
+    total = len(thedict)
+    for i, d in enumerate(thedict):
+        entry = save_dict_to_db(d)
+        print "%s/%s - %s" %(i, total, entry)
+    os.remove(full_path)
+    print "removed %s "%full_path
 
 
+
+
+
+# # download some files from the login directory
+# PUBMED_DIR = '/pubmed/baseline/'
+# host = ftputil.FTPHost('ftp.ncbi.nlm.nih.gov', 'anonymous','rrmerugu@gmail.com')
+# names = host.listdir(PUBMED_DIR)
+# print names
+# for name in names:
+#     print "Downloading %s "%name
+#     print host.path.isfile(name)
+#     if host.path.isfile(name):
+#         print "Currently downloading %s" %name
+#         host.download("%s%s%"%(PUBMED_DIR,name), name, 'b')        # remote, local, binary mode
+#         print "Downloading %s done :D" %name
+#
 
 
 
