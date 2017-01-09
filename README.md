@@ -75,11 +75,18 @@ for i, each_config_loc in enumerate(topics_configs):
     config = helpers.read_json_file(config_file)
     scrape_website_task(config, 10000, True)
 
-
-
+```
 
 
 ```
+'ENGINE': 'django.db.backends.postgresql_psycopg2',
+'NAME': os.environ.get('LUCY_DB_NAME','kevin_datascout'),
+'HOST': os.environ.get('LUCY_DB_HOST','localhost'),
+'USER':os.environ.get('LUCY_DB_USER','invaana_user'),
+'PASSWORD': os.environ.get('LUCY_DB_PASS','welcome')
+
+```
+
 
 This module is designed by Data Science team for internal usage at Invaana. 
 If you are a scientific data enthusiast, we'd love to know more about your interests. 
