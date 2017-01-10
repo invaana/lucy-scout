@@ -115,7 +115,7 @@ def parse_xml_to_dict(fpath= None, file_content=None):
             if type(journal_year) == str:
                 try:
                     journal_year = int(journal_year)
-                except:
+                except Exception as e:
                     journal_year =  re.findall(r'\d{4}',journal_year)[0]
                 else:
                     journal_year = None
@@ -151,6 +151,8 @@ def parse_xml_to_dict(fpath= None, file_content=None):
                 abstract = data["MedlineCitation"]['Article']['Abstract']['AbstractText']
             except Exception as e:
                 abstract = data["MedlineCitation"]["OtherAbstract"]["AbstractText"]  # .lstrip('[').rstrip(']')
+            except Exception as e:
+                abstract = None
             else:
                 abstract = None
 
