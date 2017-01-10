@@ -148,12 +148,11 @@ def parse_xml_to_dict(fpath= None, file_content=None):
 
         try:
             abstract = data["MedlineCitation"]['Article']['Abstract']['AbstractText']
-        except Exception as e:
-            abstract = data["MedlineCitation"]["OtherAbstract"]["AbstractText"]  # .lstrip('[').rstrip(']')
+        # except Exception as e:
+        #     abstract = data["MedlineCitation"]["OtherAbstract"]["AbstractText"]  # .lstrip('[').rstrip(']')
         except Exception as e:
             abstract = None
-        else:
-            abstract = None
+    
 
         try:
             journal_type = data['MedlineCitation']['Article']['PublicationTypeList']['PublicationType']
