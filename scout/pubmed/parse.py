@@ -98,28 +98,34 @@ def parse_xml_to_dict(fpath= None, file_content=None):
     for i,d in enumerate(tree):
         data = make_dict_from_tree(d)['PubmedArticle']
         # logger.debug( data['MedlineCitation'])
-        title = data['MedlineCitation']['Article']['ArticleTitle'].rstrip('.').lstrip('[').rstrip(']')
-        journal_title = data['MedlineCitation']['Article']['Journal']['Title'].lstrip('[').rstrip(']')
+        title = data['MedlineCitation']['Article']['ArticleTitle']
+        journal_title = data['MedlineCitation']['Article']['Journal']['Title']
+        
         pmid = data['MedlineCitation']['PMID']
 
+        journal_year = None
         try:
             journal_year = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Year'])
 
         except:
-            journal_year = re.split('(\d+)', data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate'][
+            try:
+                journal_year = re.split('(\d+)', data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate'][
                 'MedlineDate'])
-        else:
-            journal_year = None
+            except:
+                journal_year= None
 
         if type(journal_year) == str:
             try:
                 journal_year = int(journal_year)
             except Exception as e:
-                journal_year =  re.findall(r'\d{4}',journal_year)[0]
-            else:
-                journal_year = None
+                try:
+                    journal_year =  re.findall(r'\d{4}',journal_year)[0]
+                except:
+                    pass
 
         months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+        
 
         try:
             if type(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month']) == str:

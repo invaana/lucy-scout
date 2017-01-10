@@ -18,31 +18,31 @@ print Journal.objects.all().count()
 
 
 
-FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
+# FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
 
-# FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
+FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
 
 all_files = os.listdir(FILES_PATH )
 for fil in all_files:
     print "currently on %s" %fil
     print "pausing for 5 sec for the db operations to relax"
     time.sleep(5)
-    if fil.endswith('.xml'):
-        continue
-        full_path = "%s/%s"%(FILES_PATH,fil)
-        thedict = parse_xml_to_dict(fpath = full_path)
-        total = len(thedict)
-        print total
-        for i, d in enumerate(thedict):
-            try:
-                entry = save_dict_to_db(d)
-                print "%s/%s - %s" %(i, total, entry)
-            except:
-                print "Skipped %s/%s" %(i,total)
-                
-        os.remove(full_path)
-        print "removed %s "%full_path
-    elif fil.endswith('.xml.gz'):
+    # if fil.endswith('.xml'):
+    #     continue
+    #     full_path = "%s/%s"%(FILES_PATH,fil)
+    #     thedict = parse_xml_to_dict(fpath = full_path)
+    #     total = len(thedict)
+    #     print total
+    #     for i, d in enumerate(thedict):
+    #         try:
+    #             entry = save_dict_to_db(d)
+    #             print "%s/%s - %s" %(i, total, entry)
+    #         except:
+    #             print "Skipped %s/%s" %(i,total)
+    #
+    #     # os.remove(full_path)
+    #     # print "removed %s "%full_path
+    if fil.endswith('.xml.gz'):
         full_path = "%s/%s" % (FILES_PATH, fil)
         file_content = gzip.open(full_path, 'rb').read()
         thedict = parse_xml_to_dict(file_content=file_content)
@@ -55,7 +55,7 @@ for fil in all_files:
                 print "%s/%s - %s" %(i, total, entry)
             except:
                 print "Skipped %s/%s" %(i,total)
-        os.remove(full_path)
+        # os.remove(full_path)
         print "removed %s "%full_path
 
     else:
