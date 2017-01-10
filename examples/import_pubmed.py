@@ -53,8 +53,8 @@ for fil in all_files:
                 print "%s/%s - %s" %(i, total, entry)
             except:
                 print "Skipped %s/%s" %(i,total)
-            os.remove(full_path)
-            print "removed %s "%full_path
+        os.remove(full_path)
+        print "removed %s "%full_path
 
     else:
         print "Skipping %s" %fil
