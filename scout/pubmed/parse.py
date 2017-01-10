@@ -197,17 +197,22 @@ def save_dict_to_db(d):
     journal_type_list = []
     for t in d['journal_type_list']:
         if t:
-            obj, status = PublicationType.objects.get_or_create(title=t)
-    
-            journal_type_list.append(obj)
+            try:
+                obj, status = PublicationType.objects.get_or_create(title=t)
+                journal_type_list.append(obj)
+            except Exception as e:
+                logger.error(e)
 
 
     journal_keywords_list = []
     for kw in d['journal_keywords_list']:
         if kw:
-            obj, status= PublicationKeyword.objects.get_or_create(title=kw)
-            journal_keywords_list.append(obj)
-
+            try:
+                obj, status= PublicationKeyword.objects.get_or_create(title=kw)
+                journal_keywords_list.append(obj)
+            except Exception as e:
+                logger.error(e)
+                
     entry = None
     if d['title']:
         entry, status= Journal.objects.get_or_create(

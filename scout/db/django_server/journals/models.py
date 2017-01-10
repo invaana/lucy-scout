@@ -10,7 +10,7 @@ class Journal(models.Model):
     Model  created  with fields
 
     """
-    title = models.CharField(max_length=400, db_index=True)
+    title = models.CharField(max_length=1000, db_index=True)
     journal_title = models.CharField(max_length=120, db_index=True)
     abstract = models.TextField(null=True, blank=True)
     pub_year = models.IntegerField(null=True, blank=True)
@@ -31,7 +31,7 @@ class PublicationType(models.Model):
     """
     PublicationType for the Journal
     """
-    title = models.CharField(max_length=100, db_index=True)
+    title = models.CharField(max_length=150, db_index=True)
 
     def __str__(self):
         return self.title
@@ -40,6 +40,6 @@ class PublicationKeyword(models.Model):
     """
     PublicationKeyword for the Journal
     """
-    title = models.CharField(max_length=100, db_index=True)
+    title = models.CharField(max_length=150, db_index=True)
     def __str__(self):
         return self.title

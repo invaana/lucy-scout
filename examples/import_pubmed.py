@@ -18,9 +18,9 @@ print Journal.objects.all().count()
 
 
 
-# FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
+FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
 
-FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
+# FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
 
 all_files = os.listdir(FILES_PATH )
 for fil in all_files:
@@ -32,10 +32,14 @@ for fil in all_files:
         total = len(thedict)
         print total
         for i, d in enumerate(thedict):
-            entry = save_dict_to_db(d)
-            print "%s/%s - %s" %(i, total, entry)
-        # os.remove(full_path)
-        # print "removed %s "%full_path
+            try:
+                entry = save_dict_to_db(d)
+                print "%s/%s - %s" %(i, total, entry)
+            except:
+                print "Skipped %s/%s" %(i,total)
+                
+        os.remove(full_path)
+        print "removed %s "%full_path
     elif fil.endswith('.xml.gz'):
         full_path = "%s/%s" % (FILES_PATH, fil)
         file_content = gzip.open(full_path, 'rb').read()
@@ -44,10 +48,13 @@ for fil in all_files:
         total = len(thedict)
         print total
         for i, d in enumerate(thedict):
-            entry = save_dict_to_db(d)
-            print "%s/%s - %s" % (i, total, entry)
-            # os.remove(full_path)
-            # print "removed %s "%full_path
+            try:
+                entry = save_dict_to_db(d)
+                print "%s/%s - %s" %(i, total, entry)
+            except:
+                print "Skipped %s/%s" %(i,total)
+            os.remove(full_path)
+            print "removed %s "%full_path
 
     else:
         print "Skipping %s" %fil
