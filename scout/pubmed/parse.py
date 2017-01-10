@@ -96,110 +96,106 @@ def parse_xml_to_dict(fpath= None, file_content=None):
     tree = etree.fromstring(xml_file_data)
     dict_list_data = []
     for i,d in enumerate(tree):
+        data = make_dict_from_tree(d)['PubmedArticle']
+        # logger.debug( data['MedlineCitation'])
+        title = data['MedlineCitation']['Article']['ArticleTitle'].rstrip('.').lstrip('[').rstrip(']')
+        journal_title = data['MedlineCitation']['Article']['Journal']['Title'].lstrip('[').rstrip(']')
+        pmid = data['MedlineCitation']['PMID']
+
         try:
-            data = make_dict_from_tree(d)['PubmedArticle']
-            # logger.debug( data['MedlineCitation'])
-            title = data['MedlineCitation']['Article']['ArticleTitle'].rstrip('.').lstrip('[').rstrip(']')
-            journal_title = data['MedlineCitation']['Article']['Journal']['Title'].lstrip('[').rstrip(']')
-            pmid = data['MedlineCitation']['PMID']
-    
+            journal_year = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Year'])
+
+        except:
+            journal_year = re.split('(\d+)', data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate'][
+                'MedlineDate'])
+        else:
+            journal_year = None
+
+        if type(journal_year) == str:
             try:
-                journal_year = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Year'])
-    
-            except:
-                journal_year = re.split('(\d+)', data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate'][
-                    'MedlineDate'])
+                journal_year = int(journal_year)
+            except Exception as e:
+                journal_year =  re.findall(r'\d{4}',journal_year)[0]
             else:
                 journal_year = None
-    
-            if type(journal_year) == str:
-                try:
-                    journal_year = int(journal_year)
-                except Exception as e:
-                    journal_year =  re.findall(r'\d{4}',journal_year)[0]
-                else:
-                    journal_year = None
-    
-            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    
-            try:
-                if type(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month']) == str:
-                    for i, m in enumerate(months):
-                        if data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month'] == m or \
-                                        data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate'][
-                                            'Month'] in m:
-                            month = i + 1
-                else:
-                    month = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month'])
-            except:
-                month = 1
-    
-            try:
-                date = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Day'])
-            except:
-                date = 1
-    
-            try:
-                journal_pubdate = datetime.datetime(
-                    year=journal_year,
-                    month=month,
-                    day=date)
-            except:
-                journal_pubdate = None
-    
-            try:
-                abstract = data["MedlineCitation"]['Article']['Abstract']['AbstractText']
-            except Exception as e:
-                abstract = data["MedlineCitation"]["OtherAbstract"]["AbstractText"]  # .lstrip('[').rstrip(']')
-            except Exception as e:
-                abstract = None
-            else:
-                abstract = None
 
-            try:
-                journal_type = data['MedlineCitation']['Article']['PublicationTypeList']['PublicationType']
-            except:
-                journal_type = []
-    
-            try:
-                journal_keywords = data['MedlineCitation']['KeywordList']['Keyword']
-            except:
-                journal_keywords = []
-    
-            try:
-    
-                if type(journal_type) == str:
-                    journal_type = [journal_type, ]
-    
-                if type(journal_keywords) == str:
-                    journal_keywords = [journal_keywords, ]
-    
-    
-    
-    
-                if abstract:
-                    abstract = abstract
-    
-                dict_list_data.append({
-                    'pmid': pmid,
-                    'title': title,
-                    'journal_title': journal_title,
-                    'abstract': abstract,
-                    'pub_year': journal_year,
-                    'pub_date': journal_pubdate,
-                    'journal_keywords_list': journal_keywords,
-                    'journal_type_list': journal_type,
-    
-                })
-            except Exception as e:
-                logger.error(e)
-    
-                logger.error(journal_type)
-                logger.error("-=-=-=-=-=-")
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+        try:
+            if type(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month']) == str:
+                for i, m in enumerate(months):
+                    if data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month'] == m or \
+                                    data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate'][
+                                        'Month'] in m:
+                        month = i + 1
+            else:
+                month = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month'])
+        except:
+            month = 1
+
+        try:
+            date = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Day'])
+        except:
+            date = 1
+
+        try:
+            journal_pubdate = datetime.datetime(
+                year=journal_year,
+                month=month,
+                day=date)
+        except:
+            journal_pubdate = None
+
+        try:
+            abstract = data["MedlineCitation"]['Article']['Abstract']['AbstractText']
+        except Exception as e:
+            abstract = data["MedlineCitation"]["OtherAbstract"]["AbstractText"]  # .lstrip('[').rstrip(']')
+        except Exception as e:
+            abstract = None
+        else:
+            abstract = None
+
+        try:
+            journal_type = data['MedlineCitation']['Article']['PublicationTypeList']['PublicationType']
+        except:
+            journal_type = []
+
+        try:
+            journal_keywords = data['MedlineCitation']['KeywordList']['Keyword']
+        except:
+            journal_keywords = []
+
+        try:
+
+            if type(journal_type) == str:
+                journal_type = [journal_type, ]
+
+            if type(journal_keywords) == str:
+                journal_keywords = [journal_keywords, ]
+
+
+
+
+            if abstract:
+                abstract = abstract
+
+            dict_list_data.append({
+                'pmid': pmid,
+                'title': title,
+                'journal_title': journal_title,
+                'abstract': abstract,
+                'pub_year': journal_year,
+                'pub_date': journal_pubdate,
+                'journal_keywords_list': journal_keywords,
+                'journal_type_list': journal_type,
+
+            })
         except Exception as e:
             logger.error(e)
-            logger.error(data)
-            logger.error(d)
+
+            logger.error(journal_type)
+            logger.error("-=-=-=-=-=-")
+    
             
 
 
