@@ -9,7 +9,7 @@ sys.path.append(SCOUT_PATH)
 from scout.pubmed.parse import parse_xml_to_dict, save_dict_to_db
 from scout.db import Journal, PublicationKeyword, PublicationType
 from django.utils.encoding import smart_str
-import gzip, os
+import gzip, os, time
 
 import ftputil
 print Journal.objects.all().count()
@@ -25,6 +25,8 @@ FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
 all_files = os.listdir(FILES_PATH )
 for fil in all_files:
     print "currently on %s" %fil
+    print "pausing for 5 sec for the db operations to relax"
+    time.sleep(5)
     if fil.endswith('.xml'):
         continue
         full_path = "%s/%s"%(FILES_PATH,fil)
