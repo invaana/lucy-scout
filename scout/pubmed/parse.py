@@ -82,6 +82,8 @@ def parse_xml_to_dict(fpath= None, file_content=None):
     :param f: filename of in .xml format. Eg: medsamp2016a.xml
     :return:
     """
+    # print fpath
+    # print file_content
     
     if fpath == None and file_content == None:
         raise ("xml file path or xml file content only one should be parsed, not borth")
@@ -95,7 +97,7 @@ def parse_xml_to_dict(fpath= None, file_content=None):
     dict_list_data = []
     for i,d in enumerate(tree):
         try:
-            data = make_dict_from_tree(d)
+            data = make_dict_from_tree(d)['PubmedArticle']
             # logger.debug( data['MedlineCitation'])
             title = data['MedlineCitation']['Article']['ArticleTitle'].rstrip('.').lstrip('[').rstrip(']')
             journal_title = data['MedlineCitation']['Article']['Journal']['Title'].lstrip('[').rstrip(']')
@@ -183,6 +185,8 @@ def parse_xml_to_dict(fpath= None, file_content=None):
                 logger.error("-=-=-=-=-=-")
         except Exception as e:
             logger.error(e)
+            logger.error(data)
+            logger.error(d)
             
 
 
