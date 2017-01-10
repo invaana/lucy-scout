@@ -112,6 +112,14 @@ def parse_xml_to_dict(fpath= None, file_content=None):
             finally:
                 journal_year = None
     
+            if type(journal_year) == str:
+                try:
+                    journal_year = int(journal_year)
+                except:
+                    journal_year =  re.findall(r'\d{4}',journal_year)[0]
+                finally:
+                    journal_year = None
+    
             months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     
             try:
@@ -140,8 +148,12 @@ def parse_xml_to_dict(fpath= None, file_content=None):
                 journal_pubdate = None
     
             try:
+                abstract = data["MedlineCitation"]['Article']['AbstractText']
+            except Exception as e:
                 abstract = data["MedlineCitation"]["OtherAbstract"]["AbstractText"]  # .lstrip('[').rstrip(']')
             except Exception as e:
+                abstract = None
+            finally:
                 abstract = None
             try:
                 journal_type = data['MedlineCitation']['Article']['PublicationTypeList']['PublicationType']
