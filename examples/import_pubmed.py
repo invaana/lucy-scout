@@ -18,9 +18,9 @@ print Journal.objects.all().count()
 
 
 
-# FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
+FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
 
-FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
+# FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
 
 all_files = os.listdir(FILES_PATH )
 for fil in all_files:
@@ -55,7 +55,7 @@ for fil in all_files:
                 print "%s/%s - %s" %(i, total, entry)
             except:
                 print "Skipped %s/%s" %(i,total)
-        # os.remove(full_path)
+        os.remove(full_path)
         print "removed %s "%full_path
 
     else:
