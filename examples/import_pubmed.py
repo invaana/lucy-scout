@@ -18,68 +18,30 @@ print Journal.objects.all().count()
 
 
 
-FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
+# FILES_PATH = '/home/ec2-user/pubmed/ftp.ncbi.nlm.nih.gov/pubmed/baseline'
+#
+FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
+
+
+
+FILES_PATH = '/home/ec2-user/Downloads/ftp.ncbi.nlm.nih.gov/pubmed/updatefiles'
 
 # FILES_PATH ='/Users/rrmerugu/Projects/invaana/lucy-scout/examples/pubmed'
 
 all_files = os.listdir(FILES_PATH )
+print all_files
 for fil in all_files:
     print "currently on %s" %fil
-    print "pausing for 5 sec for the db operations to relax"
-    time.sleep(5)
-    # if fil.endswith('.xml'):
-    #     continue
-    #     full_path = "%s/%s"%(FILES_PATH,fil)
-    #     thedict = parse_xml_to_dict(fpath = full_path)
-    #     total = len(thedict)
-    #     print total
-    #     for i, d in enumerate(thedict):
-    #         try:
-    #             entry = save_dict_to_db(d)
-    #             print "%s/%s - %s" %(i, total, entry)
-    #         except:
-    #             print "Skipped %s/%s" %(i,total)
-    #
-    #     # os.remove(full_path)
-    #     # print "removed %s "%full_path
-    if fil.endswith('.xml.gz'):
+    print "pausing for 10 sec for the db operations to relax"
+    time.sleep(10)
+    if fil.endswith('.xml.gz') or fil.endswith('.xml.gz.back'):
         full_path = "%s/%s" % (FILES_PATH, fil)
+        if not os.path.isfile(full_path):
+            print "Skipping this ,may be already being run by other scraper "
+            continue
         file_content = gzip.open(full_path, 'rb').read()
-        thedict = parse_xml_to_dict(file_content=file_content)
-    
-        total = len(thedict)
-        print total
-        for i, d in enumerate(thedict):
-            try:
-                entry = save_dict_to_db(d)
-                print "%s/%s - %s" %(i, total, entry)
-            except:
-                print "Skipped %s/%s" %(i,total)
-        os.remove(full_path)
-        print "removed %s "%full_path
-
-    else:
-        print "Skipping %s" %fil
-
-
-
-# xmlfile = "pubmed/medsamp2016a.xml"
-
-# # download some files from the login directory
-# PUBMED_DIR = '/pubmed/baseline/'
-# host = ftputil.FTPHost('ftp.ncbi.nlm.nih.gov', 'anonymous','rrmerugu@gmail.com')
-# names = host.listdir(PUBMED_DIR)
-# print names
-# for name in names:
-#     print "Downloading %s "%name
-#     print host.path.isfile(name)
-#     if host.path.isfile(name):
-#         print "Currently downloading %s" %name
-#         host.download("%s%s%"%(PUBMED_DIR,name), name, 'b')        # remote, local, binary mode
-#         print "Downloading %s done :D" %name
-#
-
-
-
-
-
+        new_full_path = "%s.back" %full_path
+        if not os.path.isfile(full_path):
+            os.rename(full_path, new_full_path)
+        else:
+            pass

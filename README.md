@@ -20,7 +20,18 @@ pip install -e  git+https://github.com/invaana/scout.git#egg=scout
 ```
 
 ```
-sudo apt-get install libxml2-dev libxslt1-dev
+sudo apt-get install libxml2-dev libxslt1-dev  libxml2-devel libxslt1-devel python-devel gcc \
+ libxslt-devel libxml2-devel
+
+
+```
+
+
+
+```bazaar
+
+yum remove postgresql-devel
+
 ```
 ## How to use
 

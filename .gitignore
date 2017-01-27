@@ -6,3 +6,4 @@ dist/
 *-topics/*
 *.xml
 *.gz
+play/

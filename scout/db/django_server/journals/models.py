@@ -1,45 +1,66 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from mongoengine import Document,fields,EmbeddedDocument,StringField,DateTimeField,IntField,\
+    ListField,EmbeddedDocumentField
 # Create your models here.
 
 
-class Journal(models.Model):
-    """
-    Model  created  with fields
 
-    """
-    title = models.CharField(max_length=1000, db_index=True)
-    journal_title = models.CharField(max_length=120, db_index=True)
-    abstract = models.TextField(null=True, blank=True)
-    pub_year = models.IntegerField(null=True, blank=True)
-    pub_date = models.DateTimeField(null=True, blank=True)
-    pmid = models.IntegerField(null=True, blank=True)
-    link = models.CharField(max_length=200, null=True)
+class PublicationType(EmbeddedDocument):
+    title = StringField()
 
-    pub_type = models.ManyToManyField('PublicationType', )
-    keywords = models.ManyToManyField('PublicationKeyword')
 
-    def __str__(self):
-        """
-         Returns the Journal title
-        """
-        return self.title
+class PublicationKeyword(EmbeddedDocument):
+    title = StringField()
 
-class PublicationType(models.Model):
-    """
-    PublicationType for the Journal
-    """
-    title = models.CharField(max_length=150, db_index=True)
 
-    def __str__(self):
-        return self.title
+class Tag(EmbeddedDocument):
+    title = StringField()
 
-class PublicationKeyword(models.Model):
-    """
-    PublicationKeyword for the Journal
-    """
-    title = models.CharField(max_length=150, db_index=True)
-    def __str__(self):
-        return self.title
+
+class Journal(Document):
+    title = StringField()
+    journal_title = StringField()
+    abstract = StringField()
+    full_text = StringField()
+    pub_year = IntField()
+    pub_date = DateTimeField()
+    pmid = IntField()
+    link = StringField()
+
+    category = StringField(max_length=20,
+                                  default='other',
+                                  choices=(
+                                      ('blog', 'Blog'),
+                                      ('website', 'Website'),
+                                      ('journal', 'Journal'),
+                                      ('book', 'Book'),
+                                      ('doc', 'Documentation'),
+                                      ('other', 'Other')
+                                  ))
+    pub_type = ListField(EmbeddedDocumentField(PublicationType))
+    keywords = ListField(EmbeddedDocumentField(PublicationKeyword))
+    # tags = ListField(ReferenceField(Tag))
+
+    source = StringField()
+    image = StringField()
+    pub_date_unformated = StringField()
+    entry_created_at = DateTimeField()
+    entry_updated_at = DateTimeField()
+
+    meta = {
+        'index_background': True,
+        'index_drop_dups': True,
+        'indexes': [
+            'title',
+            '$title',  # text index
+            '#title',  # hashed index
+            # 'abstract',
+            # '$abstract',  # text index
+            '#abstract',  # hashed index
+
+        ]
+    }
+
+

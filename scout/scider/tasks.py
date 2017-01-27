@@ -14,7 +14,9 @@ from time import sleep
 from scout.sanitizer import clean_html
 from .helpers import validate_config
 # from .models import ScrapedData
-from scout.db.mongo import ScrapedData
+# from scout.db.mongo import ScrapedData
+from scout.db import Journal, PublicationKeyword, PublicationType
+
 logger = logging.getLogger(__name__)
 from scout.settings import dry_run_max_limit
 
@@ -88,7 +90,7 @@ from mongoengine.errors import NotUniqueError
 def save_links(links):
     for link in links:
         try:
-            obj = ScrapedData(link=link['href'])
+            obj = Journal(link=link['href'])
             obj.title = link['text']
             obj.domain=get_domain_name(link['href'])
             obj.save()
@@ -416,14 +418,14 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                 ## check if the url is already saved - if saved just update the data
                 ## TODO - we can save multiple versions in FUTURE
 
-                obj = ScrapedData.objects.filter(link = k)
+                obj = Journal.objects.filter(link = k)
                 if obj.count() >= 1:
                     #link already exist so update
                     logger.debug("%s already exist in DB, so updating" %k)
                     try:
                         obj = obj.first()
                         obj.title = v['title']
-                        obj.html = clean_html(v['content'])
+                        obj.full_text = clean_html(v['content'])
                         # obj.catagories = v['categories']
                         # obj.tags = v['tags']
                         # obj.images = []
@@ -438,9 +440,9 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                 else:
                     logger.debug("%s doesn't exist in DB, so creating entry" %k)
                     try:
-                        obj = ScrapedData(link = k)
+                        obj = Journal(link = k)
                         obj.title = v['title']
-                        obj.html = clean_html(v['content'])
+                        obj.full_text = clean_html(v['content'])
                         # obj.catagories = v['categories']
                         # obj.tags = v['tags']
                         # obj.images = []
