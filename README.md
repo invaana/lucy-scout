@@ -43,6 +43,10 @@ Step1:  Create a scider input json file
 from scout.scider.tasks import scrape_website_task
 from scout.scider import helpers
 
+
+from scout.db.mongo import connect
+connect('scout')
+
 config_file = "configs/github.json"
 config = helpers.read_json_file(config_file)
 
@@ -63,6 +67,9 @@ To run the job in queue `scrape_website_task.delay(config=config, max_limit=30, 
 ```
 from scout.scider.tasks import scrape_website_task, scrape_website_topics_task
 from scout.scider import helpers
+
+from scout.db.mongo import connect
+connect('scout')
 
 
 CONFIG_FOLDER = 'configs'

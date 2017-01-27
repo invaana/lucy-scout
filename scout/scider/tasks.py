@@ -15,7 +15,7 @@ from scout.sanitizer import clean_html
 from .helpers import validate_config
 # from .models import ScrapedData
 # from scout.db.mongo import ScrapedData
-from scout.db import Journal, PublicationKeyword, PublicationType
+from scout.db.mongo import Journal, PublicationKeyword, PublicationType
 
 logger = logging.getLogger(__name__)
 from scout.settings import dry_run_max_limit
@@ -431,7 +431,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                         # obj.images = []
 
                         if v['date']:
-                            obj.publised_date_unformated = v['date']
+                            obj.published_date_unformated = v['date']
                         obj.domain = get_domain_name(k)
                         obj.save()
                     except Exception as e:
@@ -447,7 +447,7 @@ def scrape_website_task(config=None, max_limit=None , save=True):
                         # obj.tags = v['tags']
                         # obj.images = []
                         if v['date']:
-                            obj.publised_date_unformated = v['date']
+                            obj.published_date_unformated = v['date']
                         obj.domain = get_domain_name(k)
                         obj.save()
                         logger.debug("Saved the entry %s" %k)
