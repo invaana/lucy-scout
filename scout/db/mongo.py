@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-from django.db import models
 from mongoengine import Document,fields,EmbeddedDocument,StringField,DateTimeField,IntField,\
     ListField,EmbeddedDocumentField
 # Create your models here.
