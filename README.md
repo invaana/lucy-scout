@@ -2,10 +2,12 @@
 
 
 
-[![Master Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=master)](https://travis-ci.org/invaana/lucy-scout)
-[![Develop Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=develop)](https://travis-ci.org/invaana/lucy-scout)
-[![codecov](https://codecov.io/gh/invaana/lucy-scout/branch/master/graph/badge.svg)](https://codecov.io/gh/invaana/lucy-scout)
+ 
 
+| Master | Develop   |  
+|------- | -------   | 
+|  [![Master Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=master)](https://travis-ci.org/invaana/lucy-scout) | [![Develop Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=develop)](https://travis-ci.org/invaana/lucy-scout)  | 
+|  [![codecov](https://codecov.io/gh/invaana/lucy-scout/branch/master/graph/badge.svg)](https://codecov.io/gh/invaana/lucy-scout) |  [![codecov](https://codecov.io/gh/invaana/lucy-scout/branch/develop/graph/badge.svg)](https://codecov.io/gh/invaana/lucy-scout) | 
 
 
 This is a data aggregation framework for scouting and aggregating Scientific Data. This is part of a project called 
@@ -26,9 +28,12 @@ The module will remove the html attributes like  `class` which are need for styl
 
 
 
-# Technical Stack
+## Technical Stack
 
-- Python 2.7
+- Python 2.7.x
+- Redis Server 3.2.x
+- MongoDB v3.4.x
+
 
 ## How to install
 ```
