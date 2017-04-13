@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-11", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2286-new-in-the-shop-the-octoplush", 
-        "topic": "New in the shop: The Octoplush", 
+        "website": "https://github.com/blog/2335-open-source-license-descriptions-and-metadata", 
+        "topic": "Open source license descriptions and metadata", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

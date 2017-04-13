@@ -1,0 +1,21 @@
+sudo: true
+
+language: python
+python:
+   - "2.7"
+
+#services:
+#   - docker
+#   - redis-server
+#   - mongodb
+#
+#before_install:
+#   - docker pull ubuntu
+#   - docker run ubuntu
+
+install:
+   - pip install tox-travis
+
+script:
+   - tox
+

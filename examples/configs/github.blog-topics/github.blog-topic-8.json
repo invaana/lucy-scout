@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-8", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2290-relative-links-for-github-pages", 
-        "topic": "Relative links for GitHub pages", 
+        "website": "https://github.com/blog/2337-work-life-balance-in-employee-intellectual-property-agreements", 
+        "topic": "Work/life balance in employee intellectual property agreements", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

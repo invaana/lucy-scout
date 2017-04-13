@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-0", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2299-search-commit-messages", 
-        "topic": "Search commit messages", 
+        "website": "https://github.com/blog/2347-the-github-satellite-schedule-is-here-save-your-seat", 
+        "topic": "The GitHub Satellite schedule is here: save your seat", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

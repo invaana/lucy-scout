@@ -16,20 +16,16 @@ ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
 
 """
 from django.utils.encoding import smart_str
-
 import xml.etree.cElementTree as etree
 from scout.db import Journal, PublicationKeyword, PublicationType
-
 import logging, datetime, re
 formatter = '%(asctime)s - %(lineno)d - %(name)s - %(levelname)s : %(message)s'
-logging.basicConfig(filename="./run.log", level=logging.DEBUG,filemode='w', format=formatter)
+logging.basicConfig(filename="./run.log", level=logging.DEBUG, filemode='w', format=formatter)
 logger = logging.getLogger(__name__)
 
 
-
-
 def etree_to_dict(t):
-    d = {t.tag : map(etree_to_dict, t.iterchildren())}
+    d = {t.tag: map(etree_to_dict, t.iterchildren())}
     d.update(('@' + k, v) for k, v in t.attrib.iteritems())
     d['text'] = t.text
     return d
@@ -75,17 +71,14 @@ def make_dict_from_tree(element_tree):
     return internal_iter(element_tree, {})
 
 
-def parse_xml_to_dict(fpath= None, file_content=None):
+def parse_xml_to_dict(fpath=None, file_content=None):
     """
     This will read the file in the form of .xml and returns a list of pubmed entry dictionaries
 
     :param f: filename of in .xml format. Eg: medsamp2016a.xml
     :return:
     """
-    # print fpath
-    # print file_content
-    
-    if fpath == None and file_content == None:
+    if fpath is None and file_content is None:
         raise ("xml file path or xml file content only one should be parsed, not borth")
     if fpath and file_content:
         raise ("xml file path or xml file content only one should be parsed, not borth")
@@ -95,25 +88,21 @@ def parse_xml_to_dict(fpath= None, file_content=None):
         xml_file_data = file_content
     tree = etree.fromstring(xml_file_data)
     dict_list_data = []
-    for i,d in enumerate(tree):
+    for i, d in enumerate(tree):
         data = make_dict_from_tree(d)['PubmedArticle']
-        # logger.debug( data['MedlineCitation'])
         title = data['MedlineCitation']['Article']['ArticleTitle']
         journal_title = data['MedlineCitation']['Article']['Journal']['Title']
-        
         pmid = data['MedlineCitation']['PMID']
-
         journal_year = None
+
         try:
             journal_year = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Year'])
-
         except:
             try:
                 journal_year = re.split('(\d+)', data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate'][
                 'MedlineDate'])
             except:
                 journal_year= None
-
         if type(journal_year) == str:
             try:
                 journal_year = int(journal_year)
@@ -122,11 +111,9 @@ def parse_xml_to_dict(fpath= None, file_content=None):
                     journal_year =  re.findall(r'\d{4}',journal_year)[0]
                 except:
                     pass
-
         months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
         
-
+        
         try:
             if type(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month']) == str:
                 for i, m in enumerate(months):
@@ -138,12 +125,14 @@ def parse_xml_to_dict(fpath= None, file_content=None):
                 month = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Month'])
         except:
             month = 1
-
+        
+        
         try:
             date = int(data['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']['Day'])
         except:
             date = 1
-
+        
+        
         try:
             journal_pubdate = datetime.datetime(
                 year=journal_year,
@@ -151,39 +140,35 @@ def parse_xml_to_dict(fpath= None, file_content=None):
                 day=date)
         except:
             journal_pubdate = None
-
+            
+            
         try:
             abstract = data["MedlineCitation"]['Article']['Abstract']['AbstractText']
         # except Exception as e:
         #     abstract = data["MedlineCitation"]["OtherAbstract"]["AbstractText"]  # .lstrip('[').rstrip(']')
         except Exception as e:
             abstract = None
-    
-
+            
+            
         try:
             journal_type = data['MedlineCitation']['Article']['PublicationTypeList']['PublicationType']
         except:
             journal_type = []
-
+            
+            
         try:
             journal_keywords = data['MedlineCitation']['KeywordList']['Keyword']
         except:
             journal_keywords = []
 
-        try:
 
+        try:
             if type(journal_type) == str:
                 journal_type = [journal_type, ]
-
             if type(journal_keywords) == str:
                 journal_keywords = [journal_keywords, ]
-
-
-
-
             if abstract:
                 abstract = abstract
-
             dict_list_data.append({
                 'pmid': pmid,
                 'title': title,
@@ -193,16 +178,11 @@ def parse_xml_to_dict(fpath= None, file_content=None):
                 'pub_date': journal_pubdate,
                 'journal_keywords_list': journal_keywords,
                 'journal_type_list': journal_type,
-
             })
         except Exception as e:
             logger.error(e)
-
             logger.error(journal_type)
             logger.error("-=-=-=-=-=-")
-    
-            
-
 
     return dict_list_data
 
@@ -226,17 +206,16 @@ def save_dict_to_db(d):
                 journal_keywords_list.append(obj)
             except Exception as e:
                 logger.error(e)
+    
                 
     entry = None
     if d['title']:
         entry, status= Journal.objects.get_or_create(
             title= d['title'].encode('utf-8'),
          )
-    
         abstract =  d['abstract']
         try:
             if abstract:
-    
                 abstract = smart_str(d['abstract'])
             if status:
                 entry.link = "https://www.ncbi.nlm.nih.gov/pubmed/%s" %d['pmid']
@@ -248,16 +227,6 @@ def save_dict_to_db(d):
                 entry.save()
                 entry.pub_type.add(*journal_type_list)
                 entry.keywords.add(*journal_keywords_list)
-    
         except Exception as e:
             print e
-    
     return entry
-
-
-
-
-
-
-
-

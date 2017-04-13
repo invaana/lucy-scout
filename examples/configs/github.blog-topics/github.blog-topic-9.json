@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-9", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2288-git-2-11-has-been-released", 
-        "topic": "Git 2.11 has been released", 
+        "website": "https://github.com/blog/2338-sha-1-collision-detection-on-github-com", 
+        "topic": "SHA-1 collision detection on GitHub.com", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

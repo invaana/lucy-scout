@@ -1,0 +1,27 @@
+codecov:
+  branch: develop
+  bot: null
+  token: 9b11cbf9-6fba-45d9-8773-847875dfd8b5
+
+coverage:
+  precision: 0
+  round: up
+  range: "40...100"
+
+  status:
+    project:
+      default:
+        target: auto
+        threshold: null
+        branches: null
+
+    patch:
+      default:
+        target: auto
+        branches: null
+
+    changes:
+      default:
+        branches: null
+
+  ignore: null

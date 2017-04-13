@@ -7,3 +7,9 @@ dist/
 *.xml
 *.gz
 play/
+.tox/
+invaana_scout.egg-info/
+.coverage
+dump.rdb
+.cache/*
+htmlcov

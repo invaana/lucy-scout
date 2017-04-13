@@ -7,7 +7,6 @@
 
 
 from bs4 import BeautifulSoup
-
 from lxml.html.clean import Cleaner
 from lxml.html import fromstring
 from lxml.html import _transform_result

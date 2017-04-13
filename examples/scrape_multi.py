@@ -30,7 +30,6 @@ print topics_configs
 print "Found %s topics "%topics_configs_count
 
 for i, each_config_loc in enumerate(topics_configs):
-
     print "Now detailed scrapping %s/%s topics" %(i+1, topics_configs_count)
     config_file = each_config_loc
     config = helpers.read_json_file(config_file)
