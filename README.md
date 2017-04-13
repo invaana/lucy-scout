@@ -111,9 +111,3 @@ for i, each_config_loc in enumerate(topics_configs):
 This module is designed by Data Science team for internal usage at Invaana. 
 If you are a scientific data enthusiast, we'd love to know more about your interests. 
 Let us know [@invaana](http://twitter.com/invaana) !
-
-
-
-```
-bash <(curl -s https://codecov.io/bash)
-```

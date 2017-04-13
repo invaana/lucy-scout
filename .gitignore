@@ -9,3 +9,5 @@ dist/
 play/
 .tox/
 invaana_scout.egg-info/
+.coverage
+dump.rdb

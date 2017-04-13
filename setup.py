@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='invaana-scout',
     version='0.0.1',
-    packages=['scout', 'scout.db', 'scout.scider',
+    packages=['scout', 'scout.db', 'scout.scider', 'tests',
               'scout.sanitizer', 'examples'],
     url='https://github.com/invaana/scout',
     license='',
