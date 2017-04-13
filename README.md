@@ -7,7 +7,7 @@
 | Master | Develop   |  
 |------- | -------   | 
 |  [![Master Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=master)](https://travis-ci.org/invaana/lucy-scout) | [![Develop Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=develop)](https://travis-ci.org/invaana/lucy-scout)  | 
-|  [![Master codecov](https://codecov.io/github/invaana/lucy-scout/coverage.svg?branch=master)](https://codecov.io/gh/invaana/lucy-scout) |  [![Develop codecov](https://codecov.io/github/invaana/lucy-scout/coverage.svg?branch=develop)](https://codecov.io/gh/invaana/lucy-scout/branch/develop) | 
+|  [![Master codecov](https://codecov.io/gh/invaana/lucy-scout/branch/master/graph/badge.svg)](https://codecov.io/gh/invaana/lucy-scout) |  [![Develop codecov](https://codecov.io/gh/invaana/lucy-scout/branch/develop/graph/badge.svg)](https://codecov.io/gh/invaana/lucy-scout/branch/develop) | 
 
 
 This is a data aggregation framework for scouting and aggregating Scientific Data. This is part of a project called 
