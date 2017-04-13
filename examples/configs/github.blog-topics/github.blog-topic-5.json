@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-5", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2293-resolve-simple-merge-conflicts-on-github", 
-        "topic": "Resolve simple merge conflicts on GitHub", 
+        "website": "https://github.com/blog/2340-github-satellite-2017-tickets-on-sale", 
+        "topic": "GitHub Satellite 2017 tickets on sale", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

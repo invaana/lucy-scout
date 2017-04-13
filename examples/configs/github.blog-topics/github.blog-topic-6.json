@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-6", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2289-publishing-with-github-pages-now-as-easy-as-1-2-3", 
-        "topic": "Publishing with GitHub Pages, now as easy as 1, 2, 3", 
+        "website": "https://github.com/blog/2342-welcoming-codeplex-projects-to-github", 
+        "topic": "Welcoming CodePlex projects to GitHub", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

@@ -1,38 +1,48 @@
 # Scout  
 
 
-This is a data aggregation framework for scouting and aggregating Scientific Data. 
+
+[![Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=master)](https://travis-ci.org/invaana/lucy-scout)
+[![codecov](https://codecov.io/gh/invaana/lucy-scout/branch/master/graph/badge.svg)](https://codecov.io/gh/invaana/lucy-scout)
 
 
+
+This is a data aggregation framework for scouting and aggregating Scientific Data. This is part of a project called 
+Lucy - an assistant for scientific researcher. Lucy aims at keeping an eye on the latest trends in the research from 
+ research blogs, research journals.
+ 
+ 
 The framework contains 3 modules:
 
-- **scider** - a scientific data spider  
-- **sanitizer** - sanitising the aggregated data to use it further for text mining and processing.
-- **db** - database module that stored the data into database (Currently supports MongoDB only)
+- **scider** - a scientific data spider/scouting module  
+- **sanitizer** - sanitising the aggregated HTML data to use it further for text mining and data processing. 
+The module will remove the html attributes like  `class` which are need for styling.
+- **db** - database module that stored the data into database. Since we use MongoDB as the database,
+ you can scrape the data and add dynamic fields too. (Currently supports MongoDB only)
+
+
+
+
+
+
+# Technical Stack
+
+- Python 2.7
 
 ## How to install
-
-
 ```
 #Install scout development version, no stable version yet
-pip install -e  git+https://github.com/invaana/scout.git#egg=scout
+pip install -e  git+https://github.com/invaana/lucy-scout.git#egg=scout
 
 ```
 
 ```
+# Install the following packages (Ubuntu )
 sudo apt-get install libxml2-dev libxslt1-dev  libxml2-devel libxslt1-devel python-devel gcc \
  libxslt-devel libxml2-devel
-
-
 ```
 
-
-
-```bazaar
-
-yum remove postgresql-devel
-
-```
+ 
 ## How to use
 
 ### 1. 2step blog data gathering
@@ -95,17 +105,15 @@ for i, each_config_loc in enumerate(topics_configs):
 
 ```
 
-
-```
-'ENGINE': 'django.db.backends.postgresql_psycopg2',
-'NAME': os.environ.get('LUCY_DB_NAME','kevin_datascout'),
-'HOST': os.environ.get('LUCY_DB_HOST','localhost'),
-'USER':os.environ.get('LUCY_DB_USER','invaana_user'),
-'PASSWORD': os.environ.get('LUCY_DB_PASS','welcome')
-
-```
+ 
 
 
 This module is designed by Data Science team for internal usage at Invaana. 
 If you are a scientific data enthusiast, we'd love to know more about your interests. 
 Let us know [@invaana](http://twitter.com/invaana) !
+
+
+
+```
+bash <(curl -s https://codecov.io/bash)
+```

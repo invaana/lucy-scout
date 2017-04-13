@@ -24,7 +24,7 @@ d = {
     'pub_year': journal_year, # integer
     'pub_date': journal_pubdate, # datetime object
     'journal_keywords_list': journal_keywords, # list
-    'journal_type_list': journal_type, # list
+    'journal_type_list': journal_type, #2 list
 
 }
 

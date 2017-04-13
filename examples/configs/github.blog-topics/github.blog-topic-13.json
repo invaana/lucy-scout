@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-13", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2284-new-in-the-shop-github-activity-book", 
-        "topic": "New in the Shop: GitHub Activity Book", 
+        "website": "https://github.com/blog/2332-bug-bounty-third-anniversary-wrap-up", 
+        "topic": "Bug Bounty third anniversary wrap-up", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-10", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2287-git-merge-2017-tickets-are-now-available", 
-        "topic": "Git Merge 2017 tickets are now available", 
+        "website": "https://github.com/blog/2336-invest-in-tools-students-can-grow-with-github-and-rstudio-for-data-science-at-duke-university", 
+        "topic": "Invest in tools students can grow with: GitHub and RStudio for data science at Duke University", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

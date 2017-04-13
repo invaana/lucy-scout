@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+from mongoengine.errors import NotUniqueError
 
 __author__ = 'rrmerugu'
 
@@ -14,8 +15,6 @@ from .scraper import ScrapeHTML, ScrapeDataWithBS4
 from time import sleep
 from scout.sanitizer import clean_html
 from .helpers import validate_config
-# from .models import ScrapedData
-# from scout.db.mongo import ScrapedData
 from scout.db.mongo import Journal, PublicationKeyword, PublicationType
 
 logger = logging.getLogger(__name__)
@@ -87,7 +86,6 @@ def gather_the_links(bs4_scrapper, a, data_points, k, website):
     return links_cleaned
 
 
-from mongoengine.errors import NotUniqueError
 
 
 def save_links(links):
@@ -99,10 +97,9 @@ def save_links(links):
             obj.save()
             logger.debug("Saved the entry %s" % link)
         except NotUniqueError:
-            logger.info("duplicate entry, skipping")
+            logger.info("Already entry exist, skipping")
         except Exception as e:
             logger.info(e)
-            
             logger.error("Failed to save the entry %s" % link)
 
 
@@ -308,13 +305,12 @@ def scrape_website_task(config=None, max_limit=None, save=True):
     logger.debug("config for this scraping task would be %s" % config)
     a = ScrapeHTML(config['config']['website'], config['config']['method'])
     if a.result['status'] == 200:
-        step1_time = a.result['elapsed_time']
+        step1_time = a.result['elapsed_time'] # TODO remove this
         
         # now go to the second step
         data_points = config['config']['dataPoints']  # this is a dict
 
-        # logger.debug(data_points)
-        i = "titles"
+        i = "titles" # TODO remove this
         
         bs4_scrapper = ScrapeDataWithBS4()
         logger.debug(bs4_scrapper)
@@ -348,9 +344,9 @@ def scrape_website_task(config=None, max_limit=None, save=True):
             
             links = gather_the_links_of_pagination(links, links_count, bs4_scrapper, a, k, config, save, **kw)
         
-        print len(links)
+        logger.debug(len(links))
         result[k] = links = {v['href']: v for v in links}.values()  # list(set(links))
-        print len(links)
+        logger.debug(len(links))
         result['links_count'] = len(links)
         logger.debug("Found %s links found at the end  " % len(links))
         """
@@ -403,7 +399,6 @@ def scrape_website_task(config=None, max_limit=None, save=True):
             logger.debug("Requested to Save the scraped Data | Proceeding...")
             for k, v in result['full_details'].iteritems():
                 logger.info("Saving the entry %s" % k)
-                # logger.debug("Saving the data %s" %v)
                 ## check if the url is already saved - if saved just update the data
                 ## TODO - we can save multiple versions in FUTURE
                 

@@ -13,6 +13,5 @@ connect('scout')
 
 config_file = "configs/github.json"
 config = helpers.read_json_file(config_file)
-# print config
-print scrape_website_task(config=config, max_limit=3000, save=True)
-#print data["status"]
+scrape_website_task(config=config, max_limit=30, save=True)
+print "Scraping done!"

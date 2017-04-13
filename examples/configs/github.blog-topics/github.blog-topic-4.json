@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-4", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2292-game-off-iv-highlights", 
-        "topic": "Game Off IV Highlights", 
+        "website": "https://github.com/blog/2341-github-issues-and-user-testing-as-authentic-assessment", 
+        "topic": "GitHub Issues and user testing as authentic assessment", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

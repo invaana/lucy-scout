@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-2", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2295-new-theme-chooser-for-github-pages", 
-        "topic": "New theme chooser for GitHub Pages", 
+        "website": "https://github.com/blog/2345-celebrating-nine-years-of-github-with-an-anniversary-sale", 
+        "topic": "Celebrating nine years of GitHub with an anniversary sale", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {

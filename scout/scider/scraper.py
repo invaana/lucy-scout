@@ -113,7 +113,7 @@ class ScrapeDataWithBS4:
     """
 
 
-    def getValuesDict(self, html, selector, values=["href","text"] ):
+    def getValuesDict(self, html, selector, values=["href","title"] ):
         html = html
         selector = str(selector)
         if type(values) is not list:

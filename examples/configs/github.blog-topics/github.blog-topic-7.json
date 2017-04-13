@@ -4,8 +4,8 @@
     "scraperName": "github.blog-topic-7", 
     "scraperVersion": "1", 
     "config": {
-        "website": "https://github.com/blog/2291-introducing-review-requests", 
-        "topic": "Introducing review requests", 
+        "website": "https://github.com/blog/2339-disabling-projects", 
+        "topic": "Disabling projects", 
         "scrapeType": "detailed", 
         "method": "requests", 
         "dataPoints": {
