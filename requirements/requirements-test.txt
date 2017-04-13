@@ -6,4 +6,4 @@ pytest==2.9.2
 pytest-cov==2.2.1
 flake8==2.6.2
 tox-travis
-codecov
+codecov>=1.4.0

@@ -2,7 +2,8 @@
 
 
 
-[![Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=master)](https://travis-ci.org/invaana/lucy-scout)
+[![Master Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=master)](https://travis-ci.org/invaana/lucy-scout)
+[![Develop Build Status](https://travis-ci.org/invaana/lucy-scout.svg?branch=develop)](https://travis-ci.org/invaana/lucy-scout)
 [![codecov](https://codecov.io/gh/invaana/lucy-scout/branch/master/graph/badge.svg)](https://codecov.io/gh/invaana/lucy-scout)
 
 

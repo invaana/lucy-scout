@@ -11,3 +11,4 @@ play/
 invaana_scout.egg-info/
 .coverage
 dump.rdb
+.cache/*
