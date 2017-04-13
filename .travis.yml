@@ -17,5 +17,5 @@ install:
    - pip install tox-travis
 
 script:
-   - tox -e $TRAVIS_BRANCH
+   - tox
 
