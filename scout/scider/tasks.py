@@ -122,7 +122,6 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
     data_points = config['config']['dataPoints']
     links = gather_the_links(bs4_scrapper, html, data_points, k, config['config']['website'])
     new_links_count = old_links_count + len(links)
-    
     ## Look for next and write a recursion
     next_page_selector = config['config']['dataPoints']['pagination']['nextButton']['selector']
     try:
@@ -130,30 +129,26 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
     except:
         next_page_selector_contains = None
     logger.debug("------%s" % next_page_selector_contains)
-    
     # Getting the pagination 'next' url
     if next_page_selector_contains is not None:
         logger.debug("Selector data is %s, %s" % (next_page_selector, next_page_selector_contains))
-        next_page_link = bs4_scrapper.getNextUrl(html.result['data'], next_page_selector, next_page_selector_contains,
+        next_page_link = bs4_scrapper.getNextUrl(html.result['data'],
+                                                 next_page_selector,
+                                                 next_page_selector_contains,
                                                  'href')
         logger.debug("Next page link which contains %s is %s" % (next_page_selector_contains, next_page_link))
     else:
         next_page_link = bs4_scrapper.getString(html.result['data'], next_page_selector, 0, 'href')
-    
     if next_page_link == '#':
         next_page_link = None
-    
     logger.debug("Next page link is %s" % next_page_link)
     if next_page_link == None:
         logger.debug("reached no next url, so pushing whatever sofar done to results")
         if save:
             save_links(links)
         return links
-    
     else:
-        
         next_page_link = make_complete_url(next_page_link, config['config']['website'])
-        
         if max_limit is None:
             max_limit = config['config']['dataPoints']['pagination']['scrapeMaxSize']
         else:
@@ -161,7 +156,6 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
             config['config']['dataPoints']['pagination']['scrapeMaxSize'] = max_limit
         if max_limit is None:
             max_limit = dry_run_max_limit
-        
         # If found the pagination 'next' url
         if new_links_count <= max_limit:
             if next_page_link is not None:
@@ -170,7 +164,6 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
                 sleep(__SLEEP_TIME__)
                 # Time in seconds.
                 paginated_html = ScrapeHTML(next_page_link, config['config']['method'])
-                
                 if paginated_html.result['status'] == 200:
                     """
                     TODO -
@@ -187,19 +180,16 @@ def gather_the_links_of_pagination(old_links, old_links_count, bs4_scrapper, htm
                     links = []
                     return gather_the_links_of_pagination(links, new_links_count, bs4_scrapper, paginated_html, k,
                                                           config, save, max_limit)
-                
                 else:
                     logger.debug(paginated_html.result)
                     logger.error(paginated_html.result['mesg'])
                     logger.error("Unable to gather the paginated page data ")
-                    
                     if save:
                         save_links(links)
                     # this returns the data that is gathered till failing
                     # TODO- make this failure verbose to the user, so that they can change the params
                     logger.debug('exiting after new paginations and no further pagination exist')
                     return links
-            
             else:
                 if save:
                     save_links(links)
@@ -226,7 +216,6 @@ def scrape_website_topics_task(config=None, config_folder=None):
     status : 200
     topics_configs: [] # relative path urls
     """
-    
     validate_config(config)
     scraper_name = config['scraperName']
     response = {}
@@ -240,36 +229,28 @@ def scrape_website_topics_task(config=None, config_folder=None):
         return response
     if type(topics_scrape_data_point) is not dict:
         raise "Halting the program! 'topicLinks' should be a dict type "
-    
     a = ScrapeHTML(config['config']['website'], config['config']['method'])
-    
     bs4_scrapper = ScrapeDataWithBS4()
     raw_links = bs4_scrapper.getValuesDict(a.result['data'],
                                            topics_scrape_data_point['selector'])
-    
     links = []
     for link in raw_links:
-        
         if link['href']:
             link['href'] = make_complete_url(link['href'], config['config']['website'])
             links.append(link)
-    
     new_config = config.copy()
     """
-        step1: delete the config['config']['dataPoints']['topicLinks']
+    step1: delete the config['config']['dataPoints']['topicLinks']
     so that the new one dont go to topic scraping again
     """
     del new_config['config']['dataPoints']['topicLinks']
-    
     # SANITISE THE SCRAPER NAME
     del new_config['scraperName']
     topic_configs = []
-    
     """
     this will save this config into topic configs
     """
     for i, link in enumerate(links):
-        
         # print config['scraperName']
         """
         step2: modify the website url
@@ -278,7 +259,6 @@ def scrape_website_topics_task(config=None, config_folder=None):
         new_config['config']['topic'] = link['text']
         new_config['scraperName'] = "%s-topic-%s" % (config['scraperName'], i)
         topics_dir = os.path.join(config_folder, "%s-topics" % config['scraperName'])
-        
         if not os.path.exists(topics_dir):
             os.makedirs(topics_dir)
         topic_config = "%s/%s.json" % (topics_dir, new_config['scraperName'])
@@ -299,25 +279,19 @@ def scrape_website_task(config=None, max_limit=None, save=True):
     :param save: should the data be saved to db.
     :return:
     """
-    
     validate_config(config)
     response = {}
     logger.debug("config for this scraping task would be %s" % config)
     a = ScrapeHTML(config['config']['website'], config['config']['method'])
     if a.result['status'] == 200:
         step1_time = a.result['elapsed_time'] # TODO remove this
-        
         # now go to the second step
         data_points = config['config']['dataPoints']  # this is a dict
-
         i = "titles" # TODO remove this
-        
         bs4_scrapper = ScrapeDataWithBS4()
         logger.debug(bs4_scrapper)
-        
         # now create a dict for results
         result = {}
-        
         ## first get the links
         k = "links"
         links = []
@@ -329,21 +303,16 @@ def scrape_website_task(config=None, max_limit=None, save=True):
                                      data_points,
                                      k,
                                      config['config']['website'])
-        
-        
         else:  # when pagination is true
             ## First scape the page
             if max_limit:
                 kw = {'max_limit': max_limit}
             else:
                 kw = {}
-            
             # overriding the max_limit for dryrun type
             if config['config']['scrapeType'] == 'dryrun':
                 kw = {'max_limit': dry_run_max_limit}
-            
             links = gather_the_links_of_pagination(links, links_count, bs4_scrapper, a, k, config, save, **kw)
-        
         logger.debug(len(links))
         result[k] = links = {v['href']: v for v in links}.values()  # list(set(links))
         logger.debug(len(links))
@@ -352,21 +321,16 @@ def scrape_website_task(config=None, max_limit=None, save=True):
         """
         Lets insert the data of links into the database
         """
-        
         result['full_details'] = {}
         if config['config']['scrapeType'] == "detailed":
             # if it is detailed type, the scraper will scrape more more info, ie., every datapoint
             # Step2: Gathering the full details
-            
             logger.debug(links)
             if len(links) >= 1:
                 to_scrape_points = data_points['linkScraper']
                 i = 1
                 total = len(links)
                 for link in links:
-                    # print link
-                    
-                    
                     logger.debug("Scraping the link %s/%s):%s" % (i, total, link))
                     thishtml = ScrapeHTML(link['href'], config['config']['method'])
                     result['full_details'][link['href']] = {}
@@ -387,21 +351,16 @@ def scrape_website_task(config=None, max_limit=None, save=True):
                                                              k['valueType'])
                             else:
                                 data = None
-                            
                             result['full_details'][link['href']][k["name"]] = data
-                    
                     else:
                         pass
-                    
                     i = i + 1
-        
         if save:
             logger.debug("Requested to Save the scraped Data | Proceeding...")
             for k, v in result['full_details'].iteritems():
                 logger.info("Saving the entry %s" % k)
                 ## check if the url is already saved - if saved just update the data
                 ## TODO - we can save multiple versions in FUTURE
-                
                 obj = Journal.objects.filter(link=k)
                 if obj.count() >= 1:
                     # link already exist so update
@@ -416,7 +375,6 @@ def scrape_website_task(config=None, max_limit=None, save=True):
                         # obj.catagories = v['categories']
                         # obj.tags = v['tags']
                         # obj.images = []
-                        
                         if v['date']:
                             obj.pub_date_unformated = v['date']
                         obj.source = get_domain_name(k)
@@ -444,9 +402,7 @@ def scrape_website_task(config=None, max_limit=None, save=True):
                     except Exception as e:
                         logger.error(e)
                         logger.debug("Failed to save link %s" % k)
-        
         response['result'] = result
-        
         return {'data': response, 'status': 200}
     else:
         response = a.result
