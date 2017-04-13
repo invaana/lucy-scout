@@ -13,6 +13,9 @@ before_install:
    - docker pull ubuntu
    - docker run ubuntu
 
+install:
+   - pip install tox-travis
+
 script:
    - tox
 
