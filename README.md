@@ -1,4 +1,4 @@
-# Scout  
+# Lucy Scout  
 
 
 
@@ -19,12 +19,9 @@ The framework contains 3 modules:
 
 - **scider** - a scientific data spider/scouting module  
 - **sanitizer** - sanitising the aggregated HTML data to use it further for text mining and data processing. 
-The module will remove the html attributes like  `class` which are need for styling.
+The module will remove the html attributes like `class` which are need for styling.
 - **db** - database module that stored the data into database. Since we use MongoDB as the database,
  you can scrape the data and add dynamic fields too. (Currently supports MongoDB only)
-
-
-
 
 
 
@@ -42,6 +39,8 @@ pip install -e  git+https://github.com/invaana/lucy-scout.git#egg=scout
 
 ```
 
+
+## 
 ```
 # Install the following packages (Ubuntu )
 sudo apt-get install libxml2-dev libxslt1-dev  libxml2-devel libxslt1-devel python-devel gcc \
@@ -52,6 +51,13 @@ sudo apt-get install libxml2-dev libxslt1-dev  libxml2-devel libxslt1-devel pyth
 ## How to use
 
 ### 1. 2step blog data gathering
+
+When we say 2 step blog, it means just any blog structure(post list and post detail pages). In this scenario, 
+
+1. **STEP1:** gather the URLs of the blogs including the paginated contain.
+2. **STEP2:** gather the full details of each blog.
+
+
 ```
 Step1:  Create a scider input json file 
 # example : examples/configs/github.json
@@ -79,6 +85,8 @@ To run the job in queue `scrape_website_task.delay(config=config, max_limit=30, 
 
 
 ### 3. 3step website as a blog scraping with topics
+
+When we say 3 step blog, it means categorised sub-blogs in a blog/website.  
 
 ```
 from scout.scider.tasks import scrape_website_task, scrape_website_topics_task

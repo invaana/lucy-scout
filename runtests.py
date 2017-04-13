@@ -5,7 +5,7 @@ import pytest
 
 
 FLAKE8_ARGS = ['scout', 'tests/', '--ignore=E501' ]
-PYTEST_ARGS = [ '--cov=scout', '--tb=short', '-rw' ]
+PYTEST_ARGS = ['scout','tests', '--cov=scout', '--tb=short', '-rw' ]
 
 
 def exit_on_failure(command, message=None):
