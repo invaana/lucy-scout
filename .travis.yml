@@ -19,7 +19,5 @@ install :
    - pip install -r requirements/requirements-test.txt
 
 script:
-   - coverage run runtests.py
+   - tox
 
-after_success:
-   - codecov
