@@ -9,7 +9,13 @@ services:
    - mongodb
 
 before_script:
-  - sleep 15 #https://docs.travis-ci.com/user/database-setup/#MongoDB-does-not-immediately-accept-connections
+   - echo "deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb.list
+   - sudo apt-get update
+   - sudo apt-get install mongodb-org-server=3.4
+   - sleep 15 #https://docs.travis-ci.com/user/database-setup/#MongoDB-does-not-immediately-accept-connections
+   - mongo --eval "printjson(db.serverStatus())"
+   - mongo --eval "db.adminCommand( { setParameter: true, textSearchEnabled : true})"
+
 
 install:
    - pip install tox-travis
