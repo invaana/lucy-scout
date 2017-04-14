@@ -5,17 +5,18 @@ python:
    - "2.7"
 
 services:
-   - redis-server
+   - docker
 
-before_script:
-   - echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
-   - sudo apt-get update
-   - sudo apt-get install mongodb-org-server mongodb-org -y
-   - sudo service mongod start
-   - sleep 15 #https://docs.travis-ci.com/user/database-setup/#MongoDB-does-not-immediately-accept-connections
+before_install:
+   - docker pull mongo:3.4
+   - docker run mongo
+   - sleep 5
    - mongo --eval "printjson(db.serverStatus())"
    - mongo --eval 'db.adminCommand({setParameter:true, textSearchEnabled:true})' #http://stackoverflow.com/a/20673005/3448851
+   - docker pull redis:3.2
+   - docker run redis
 
+cache: pip
 
 install:
    - pip install tox-travis
