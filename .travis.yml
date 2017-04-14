@@ -4,14 +4,10 @@ language: python
 python:
    - "2.7"
 
-#services:
-#   - docker
-#   - redis-server
-#   - mongodb
-#
-#before_install:
-#   - docker pull ubuntu
-#   - docker run ubuntu
+services:
+   - redis-server
+   - mongodb
+
 
 install:
    - pip install tox-travis
