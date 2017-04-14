@@ -22,7 +22,7 @@ The framework contains 3 modules:
 The module will remove the html attributes like `class` which are need for styling.
 - **db** - database module that stored the data into database. Since we use MongoDB as the database,
  you can scrape the data and add dynamic fields too. (Currently supports MongoDB only)
-
+- **pubmed** - this module imports the data from [pubmed](https://www.ncbi.nlm.nih.gov/pubmed) into the database.
 
 
 ## Technical Stack
