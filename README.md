@@ -29,7 +29,7 @@ The module will remove the html attributes like `class` which are need for styli
 
 - Python 2.7.x
 - Redis Server 3.2.x
-- MongoDB v3.4.x
+- MongoDB v3.x
 
 
 ## How to install
