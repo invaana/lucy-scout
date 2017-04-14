@@ -8,13 +8,13 @@ services:
    - docker
 
 before_install:
-   - docker pull mongo:3.4
-   - docker run mongo:3.4 -d
+   - docker pull mongo:latest
+   - docker run -p 27017:27017 -d mongo
    - sleep 5
    - mongo --eval "printjson(db.serverStatus())"
    - mongo --eval 'db.adminCommand({setParameter:true, textSearchEnabled:true})' #http://stackoverflow.com/a/20673005/3448851
-   - docker pull redis:3.2
-   - docker run redis:3.2 -d
+   - docker pull redis:latest
+   - docker run -d redis
 
 
 install:
