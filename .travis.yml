@@ -18,9 +18,11 @@ before_install:
    - docker pull redis:latest
    - docker run -d redis
 
+cache: pip
 
 install:
    - pip install tox-travis
+   - pip install codecov
 
 script:
    - mongo --version
