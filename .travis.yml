@@ -4,8 +4,10 @@ language: python
 python:
    - "2.7"
 
+
 services:
    - docker
+
 
 before_install:
    - docker pull mongo:latest
@@ -23,3 +25,4 @@ install:
 script:
    - mongo --version
    - tox
+   - if [ ${TRAVIS} ]; then  codecov -t "9b11cbf9-6fba-45d9-8773-847875dfd8b5";  fi

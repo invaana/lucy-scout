@@ -32,6 +32,7 @@ The module will remove the html attributes like `class` which are need for styli
 - MongoDB v3.x
 
 
+
 ## How to install
 ```
 #Install scout development version, no stable version yet
