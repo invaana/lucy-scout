@@ -6,7 +6,6 @@ python:
 
 services:
    - redis-server
-   - mongodb
 
 before_script:
    - echo "deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb.list
@@ -14,7 +13,7 @@ before_script:
    - sudo apt-get install mongodb-org-server=3.4
    - sleep 15 #https://docs.travis-ci.com/user/database-setup/#MongoDB-does-not-immediately-accept-connections
    - mongo --eval "printjson(db.serverStatus())"
-   - mongo --eval "db.adminCommand( { setParameter: true, textSearchEnabled : true})"
+   - mongo --eval "db.adminCommand( { setParameter: true, textSearchEnabled : true})" #http://stackoverflow.com/a/20673005/3448851
 
 
 install:
