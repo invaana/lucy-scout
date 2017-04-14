@@ -1,0 +1,7 @@
+site_name: Lucy Scout
+repo_url: https://github.com/invaana/lucy-scout
+
+
+
+pages:
+- Home: index.md

@@ -4,18 +4,24 @@ language: python
 python:
    - "2.7"
 
-#services:
-#   - docker
-#   - redis-server
-#   - mongodb
-#
-#before_install:
-#   - docker pull ubuntu
-#   - docker run ubuntu
+
+services:
+   - docker
+
+
+before_install:
+   - docker pull mongo:latest
+   - docker run -p 27017:27017 -d mongo
+   - sleep 5
+   - mongo --eval "printjson(db.serverStatus())"
+   - mongo --eval 'db.adminCommand({setParameter:true, textSearchEnabled:true})' #http://stackoverflow.com/a/20673005/3448851
+   - docker pull redis:latest
+   - docker run -d redis
+
 
 install:
    - pip install tox-travis
 
 script:
+   - mongo --version
    - tox
-

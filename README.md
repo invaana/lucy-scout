@@ -22,6 +22,7 @@ The framework contains 3 modules:
 The module will remove the html attributes like `class` which are need for styling.
 - **db** - database module that stored the data into database. Since we use MongoDB as the database,
  you can scrape the data and add dynamic fields too. (Currently supports MongoDB only)
+<<<<<<< HEAD
 
 
 
@@ -32,6 +33,18 @@ The module will remove the html attributes like `class` which are need for styli
 - MongoDB v3.4.x
 
 
+=======
+- **pubmed** - this module imports the data from [pubmed](https://www.ncbi.nlm.nih.gov/pubmed) into the database.
+
+
+## Technical Stack
+
+- Python 2.7.x
+- Redis Server 3.2.x
+- MongoDB v3.x
+
+
+>>>>>>> develop
 ## How to install
 ```
 #Install scout development version, no stable version yet
