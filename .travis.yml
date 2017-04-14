@@ -8,6 +8,8 @@ services:
    - redis-server
    - mongodb
 
+before_script:
+  - sleep 15 #https://docs.travis-ci.com/user/database-setup/#MongoDB-does-not-immediately-accept-connections
 
 install:
    - pip install tox-travis
